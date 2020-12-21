@@ -10,16 +10,15 @@ public class SlideMovement : MonoBehaviour
     private float origHeight;
 
     //local variables for methods
+    public Transform crouchPosition;
     private Vector3 slideDir;
 
     //referenced by movement script
     public bool isSliding;
 
-    //component references
+    //component & script refs
     private Rigidbody rb;
     private CapsuleCollider col;
-
-    //script reference
     private PlayerMovement movementScript;
 
     // Start is called before the first frame update
@@ -55,7 +54,10 @@ public class SlideMovement : MonoBehaviour
 
         slideDir = transform.forward;
 
-        changeHeight(reducedHeight);
+        // changeHeight(reducedHeight);
+        col.height = 1;
+        transform.position = crouchPosition.position;
+
         rb.AddForce(slideDir * speed);
         isSliding = true;
     }
@@ -67,12 +69,13 @@ public class SlideMovement : MonoBehaviour
             //downward force to keep player on slope
             rb.AddForce(Vector3.down * 10f);
         }
-            
-
+        
     }
 
     void FinishSlide() {
-        changeHeight(origHeight);
+        // changeHeight(origHeight);
+        col.height = 2;
+
         isSliding = false;
         slideDir = Vector3.zero;
     }
