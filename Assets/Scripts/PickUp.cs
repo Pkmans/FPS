@@ -43,8 +43,6 @@ public class PickUp : MonoBehaviour
     }
 
     void PickUpGun() {
-        print("gun picked up");
-
         //smoothly move weapon to equip Position
         currentWeapon.transform.parent = equipPos;
         currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * 9);

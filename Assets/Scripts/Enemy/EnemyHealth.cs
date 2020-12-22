@@ -7,10 +7,14 @@ public class EnemyHealth : MonoBehaviour
     public int health = 1;
     private Animator anim;
 
+    public GameObject blood;
+    private Transform bloodSplatterPos;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        bloodSplatterPos = gameObject.transform.Find("bloodSplatterPos");
     }
 
     // Update is called once per frame
@@ -27,9 +31,9 @@ public class EnemyHealth : MonoBehaviour
         health -= damage;
 
         if (health <= 0) 
-        {
             Die();
-        }
+
+        Instantiate(blood, bloodSplatterPos.position, blood.transform.rotation);
     }
 
     void Die() {

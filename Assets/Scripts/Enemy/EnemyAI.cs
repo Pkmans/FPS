@@ -18,13 +18,14 @@ public class EnemyAI : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
 
     private Animator anim;
+    private EnemyGun enemyGun;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-        
+        enemyGun = GetComponentInChildren<EnemyGun>();
         anim = GetComponent<Animator>();
     }
 
@@ -36,12 +37,17 @@ public class EnemyAI : MonoBehaviour
 
 
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInSightRange && playerInAttackRange) AttackPlayer();
+
+        if (playerInSightRange && playerInAttackRange)
+            AttackPlayer();
+        else if (enemyGun) 
+            enemyGun.inAttackState = false;
     }
 
     void ChasePlayer() {
         agent.SetDestination(player.position);
 
+        //look at player
         Vector3 playerPos = new Vector3(player.position.x, transform.position.y, player.position.z);
         transform.LookAt(playerPos);
 
@@ -50,14 +56,22 @@ public class EnemyAI : MonoBehaviour
     }
 
     void AttackPlayer() {
-        print ("attacking player");
+        
+        //stop moving and play animation
         agent.SetDestination(transform.position);
-
         anim.SetTrigger("attack");
+
+        //look at player
+        Vector3 playerPos = new Vector3(player.position.x, transform.position.y, player.position.z);
+        transform.LookAt(playerPos);
+
+        if (enemyGun)
+            enemyGun.inAttackState = true;
+        
     }
 
     public void DisableAI() {
-        agent.SetDestination(transform.position); //stops movement
+        agent.SetDestination(transform.position);   ///stops movement
         this.enabled = false;
     }
 }

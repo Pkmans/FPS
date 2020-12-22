@@ -34,6 +34,10 @@ public class Bullet : MonoBehaviour
             if (enemyHp) enemyHp.TakeDamage(damage);
         } 
         
+        if (col.gameObject.name == "Player") {
+            PlayerHealth playerHp = col.gameObject.GetComponent<PlayerHealth>();
+            playerHp.TakeDamage(damage);
+        }
         
         Destroy(gameObject);
     }

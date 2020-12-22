@@ -15,6 +15,9 @@ public class Gun : MonoBehaviour
     private Transform cam;
     private Camera camComponent;
 
+    //particles
+    public ParticleSystem muzzleFlash;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +28,8 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
             Fire();
-        }
     }
 
     void Fire() {
@@ -42,6 +44,7 @@ public class Gun : MonoBehaviour
             targetPoint = ray.GetPoint(1000);
 
 
+        //instantiate bullet
         GameObject newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
         newBullet.GetComponent<Bullet>().damage = damage;
 
@@ -49,5 +52,8 @@ public class Gun : MonoBehaviour
         Vector3 bulletDir;
         bulletDir = targetPoint - firePoint.position;
         newBullet.GetComponent<Rigidbody>().velocity = bulletDir.normalized * bulletSpeed;
+
+        //particles and effects
+        muzzleFlash.Play();
     }
 }

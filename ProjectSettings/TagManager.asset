@@ -7,7 +7,7 @@ TagManager:
   - canGrab
   - ragdollEnemy
   - PlayerProjectile
-  - playerProjectile
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX
@@ -21,7 +21,7 @@ TagManager:
   - IgnoreCollidePlayer
   - Player
   - Enemy
-  - 
+  - DamagesPlayer
   - 
   - 
   - 
