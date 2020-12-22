@@ -29,13 +29,7 @@ public class RagDoll : MonoBehaviour
         
     }
 
-    void OnCollisionEnter (Collision col) {
-        if (col.gameObject.CompareTag("PlayerProjectile")) {
-            ToggleRagdoll(true);
-        }
-    }
-
-    void ToggleRagdoll (bool on) {
+    public void ToggleRagdoll (bool on) {
         foreach (Rigidbody rb in rigidbodies) {
             rb.isKinematic = !on;
         }
