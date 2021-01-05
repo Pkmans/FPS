@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7122574824239313190}
   - component: {fileID: 7122574824239313191}
   - component: {fileID: 1295230223580915758}
+  - component: {fileID: 2695814600592681732}
   m_Layer: 0
   m_Name: pistol
   m_TagString: canGrab
@@ -131,9 +132,31 @@ MonoBehaviour:
   fireRate: 1
   damage: 1
   numBullets: 1
+  recoil_Strength: 20
+  maxAmmo: 10
+  reloadTime: 1
+  ammo: {fileID: 0}
   bullet: {fileID: 5498626081228398627, guid: 5837718e9e5cd514ca0f76b73e7b5519, type: 3}
   firePoint: {fileID: 7122574822981789220}
   muzzleFlash: {fileID: 4018944416555099413}
+  upRecoil: {x: 0, y: 10, z: 0}
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2695814600592681732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295230223580915753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7173fb83977b44f9dc38363ea00739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amount: 0.13
+  smoothAmount: 8
+  maxSwayAmount: 0.2
+  bobAmount: 0.13
 --- !u!1 &2327634810266826797
 GameObject:
   m_ObjectHideFlags: 0

@@ -60,6 +60,9 @@ public class SlideMovement : MonoBehaviour
 
         rb.AddForce(slideDir * speed);
         isSliding = true;
+
+        Tilt(true);
+
     }
     
     void Sliding() {
@@ -74,10 +77,15 @@ public class SlideMovement : MonoBehaviour
 
     void FinishSlide() {
         // changeHeight(origHeight);
+        if (!isSliding) return;
+
         col.height = 2;
 
         isSliding = false;
         slideDir = Vector3.zero;
+
+        Tilt(false);
+
     }
     
     bool CheckIfOnSlope() {
@@ -96,4 +104,15 @@ public class SlideMovement : MonoBehaviour
 
         transform.localScale = newScale;
     }
+
+    void Tilt(bool tilt) {
+        // if (tilt) {
+        //     transform.Rotate(0, 0, 3.5f);
+        // }
+        // else {
+        //     transform.Rotate(0, 0, -3.5f);
+        // } 
+    }
+
+    
 }

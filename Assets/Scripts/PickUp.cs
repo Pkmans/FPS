@@ -12,10 +12,12 @@ public class PickUp : MonoBehaviour
     private bool canGrab;
     private bool pickingUp;
 
+    private Recoil recoil;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        recoil = GetComponent<Recoil>();
     }
 
     // Update is called once per frame
@@ -27,7 +29,10 @@ public class PickUp : MonoBehaviour
             pickingUp = true;
         
         if (pickingUp)
-            PickUpGun();
+            PickUpWeapon();
+
+        if (Input.GetKeyDown(KeyCode.G) && currentWeapon)
+            DropWeapon();
     }
 
     void CheckGrab() {
@@ -42,19 +47,29 @@ public class PickUp : MonoBehaviour
         else canGrab = false;
     }
 
-    void PickUpGun() {
+    void PickUpWeapon() {
         //smoothly move weapon to equip Position
         currentWeapon.transform.parent = equipPos;
         currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * 9);
         currentWeapon.transform.rotation = Quaternion.Slerp(currentWeapon.transform.rotation, equipPos.rotation, Time.deltaTime * 9);
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
 
-        currentWeapon.GetComponent<Gun>().enabled = true;
+        
+        
 
-        if (currentWeapon.transform.position == equipPos.position) {
+        if (Vector3.Distance(currentWeapon.transform.position, equipPos.position) <= 0.1f) {
             pickingUp = false;
+            currentWeapon.GetComponent<Gun>().enabled = true;
+            currentWeapon.GetComponent<WeaponSway>().enabled = true;
         }
-            
+    }
 
+    void DropWeapon() {
+        currentWeapon.transform.parent = null;
+        currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
+        currentWeapon.GetComponent<Gun>().enabled = false;
+
+        currentWeapon = null;
+        pickingUp = false;
     }
 }
