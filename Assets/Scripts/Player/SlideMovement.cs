@@ -6,8 +6,6 @@ public class SlideMovement : MonoBehaviour
 {
     //public variables
     public float speed;
-    public float reducedHeight = 0.5f;
-    private float origHeight;
 
     //local variables for methods
     public Transform crouchPosition;
@@ -18,23 +16,30 @@ public class SlideMovement : MonoBehaviour
 
     //component & script refs
     private Rigidbody rb;
-    private CapsuleCollider col;
+    public CapsuleCollider innerCol, outerCol;
     private PlayerMovement movementScript;
+
+    //camera tilt
+    public GameObject cam;
+    public float tiltSmooth;
+    private Quaternion initialRotation;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         movementScript = GetComponent<PlayerMovement>();
-        col = GetComponent<CapsuleCollider>();
 
-        origHeight = transform.localScale.y;
+        initialRotation = cam.transform.localRotation;
     }
 
     // Update is called once per frame
     void Update()
     {
         Slide();
+
+        if (isSliding) Tilt();
+        else ResetTilt();
     }
 
     void FixedUpdate() {
@@ -54,15 +59,13 @@ public class SlideMovement : MonoBehaviour
 
         slideDir = transform.forward;
 
-        // changeHeight(reducedHeight);
-        col.height = 1;
+        innerCol.height /= 2;
+        outerCol.height /= 2;
+
         transform.position = crouchPosition.position;
 
         rb.AddForce(slideDir * speed);
         isSliding = true;
-
-        Tilt(true);
-
     }
     
     void Sliding() {
@@ -72,27 +75,23 @@ public class SlideMovement : MonoBehaviour
             //downward force to keep player on slope
             rb.AddForce(Vector3.down * 10f);
         }
-        
     }
 
     void FinishSlide() {
-        // changeHeight(origHeight);
         if (!isSliding) return;
 
-        col.height = 2;
+        innerCol.height *= 2;
+        outerCol.height *= 2;
 
         isSliding = false;
         slideDir = Vector3.zero;
-
-        Tilt(false);
-
     }
     
     bool CheckIfOnSlope() {
         if (!movementScript.grounded) return false;
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, col.height/2 * 3f))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, innerCol.height/2 * 3f))
             return (Vector3.Distance(hit.normal, Vector3.up) > .1f);
         else
             return false;
@@ -105,13 +104,13 @@ public class SlideMovement : MonoBehaviour
         transform.localScale = newScale;
     }
 
-    void Tilt(bool tilt) {
-        // if (tilt) {
-        //     transform.Rotate(0, 0, 3.5f);
-        // }
-        // else {
-        //     transform.Rotate(0, 0, -3.5f);
-        // } 
+    void Tilt() {
+        Quaternion tiltRotation = Quaternion.Euler(0, 0, 5);
+        cam.transform.localRotation = Quaternion.Lerp(cam.transform.localRotation, tiltRotation, Time.deltaTime * tiltSmooth);
+    }
+
+    void ResetTilt() {
+        cam.transform.localRotation = Quaternion.Lerp(cam.transform.localRotation, initialRotation, Time.deltaTime * tiltSmooth);
     }
 
     

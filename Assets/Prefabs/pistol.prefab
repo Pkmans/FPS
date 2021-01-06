@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7122574824239313191}
   - component: {fileID: 1295230223580915758}
   - component: {fileID: 2695814600592681732}
+  - component: {fileID: 1934267622724565727}
   m_Layer: 0
   m_Name: pistol
   m_TagString: canGrab
@@ -128,18 +129,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af57af56dfe00e4a8843662988cfca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 30
-  fireRate: 1
+  bulletSpeed: 45
+  fireRate: 0.25
   damage: 1
   numBullets: 1
-  recoil_Strength: 20
+  recoil_Strength: 40
+  recoilSpeed: 20
   maxAmmo: 10
-  reloadTime: 1
+  reloadTime: 0.75
   ammo: {fileID: 0}
   bullet: {fileID: 5498626081228398627, guid: 5837718e9e5cd514ca0f76b73e7b5519, type: 3}
   firePoint: {fileID: 7122574822981789220}
   muzzleFlash: {fileID: 4018944416555099413}
-  upRecoil: {x: 0, y: 10, z: 0}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &2695814600592681732
 MonoBehaviour:
@@ -156,7 +157,27 @@ MonoBehaviour:
   amount: 0.13
   smoothAmount: 8
   maxSwayAmount: 0.2
-  bobAmount: 0.13
+  bobAmount: 0.12
+  bobSpeed: 3
+--- !u!95 &1934267622724565727
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295230223580915753}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9648e38c37420c448bdf88ae4ffc43b9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2327634810266826797
 GameObject:
   m_ObjectHideFlags: 0

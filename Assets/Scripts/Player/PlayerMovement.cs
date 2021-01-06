@@ -11,9 +11,10 @@ public class PlayerMovement : MonoBehaviour
     public float dashSpeed;
     public float turnSpeed;
     public float extraGravity;
-    public float DEFAULT_DRAG = 0f;
-    public float AIR_DRAG = 0f;
-    public float COUNTER_DRAG = 3f;
+    public float DEFAULT_DRAG ;
+    public float AIR_DRAG;
+    public float COUNTER_DRAG ;
+    public float SLIDING_DRAG;
 
     //global velocity vars
     Vector2 vel;
@@ -68,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate() {
         rb.AddForce(Vector3.down * extraGravity);
 
-        if (isSliding) return;
+        // if (isSliding) return;
         // if (dashing) return;
 
         vel = CurVelocityRelativeToLook();
@@ -89,9 +90,9 @@ public class PlayerMovement : MonoBehaviour
         if (z > 0 && zVel > maxSpeed) z = 0;
         if (z < 0 && zVel < -maxSpeed) z = 0;
 
-        //normalize diagonal speed
+        //normalize diagonal speed and remove input if sliding
         Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
-        if (Mathf.Abs(flatVel.magnitude) > maxSpeed) {
+        if (Mathf.Abs(flatVel.magnitude) > maxSpeed || isSliding) {
             x = 0;
             z = 0;
         }
@@ -117,6 +118,17 @@ public class PlayerMovement : MonoBehaviour
     void CounterMovement(float x, float z) {
         bool noInputs = x == 0 & z == 0;
 
+        //DRAG FOR SLIDING
+        if (grounded && isSliding) {
+            Drag(SLIDING_DRAG);
+            return;
+        } else if (!grounded && isSliding) {
+            rb.drag = DEFAULT_DRAG;
+            return;
+        }
+            
+            
+        //DRAG FOR GROUND, MID-AIR, AND DEFAULT
         if (grounded && noInputs)
             Drag(COUNTER_DRAG);
         else if (!grounded && noInputs)

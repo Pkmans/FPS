@@ -12,6 +12,7 @@ public class WeaponSway : MonoBehaviour
 
     //walk sway
     public float bobAmount;
+    public float bobSpeed;
     private float swayTarget = 1;
     private Vector3 swayPos1, swayPos2;
     private Vector3 bobPosition;
@@ -63,8 +64,7 @@ public class WeaponSway : MonoBehaviour
         //first sway point
         if (swayTarget == 1) {
             if (Vector3.Distance (pos, swayPos1) > .1) {
-                print ("lerping to target 1");
-                transform.parent.parent.localPosition = Vector3.Slerp(pos, swayPos1, Time.deltaTime * 4);
+                transform.parent.parent.localPosition = Vector3.Slerp(pos, swayPos1, Time.deltaTime * bobSpeed);
             }
             else swayTarget = 2;
             return;
@@ -72,14 +72,14 @@ public class WeaponSway : MonoBehaviour
 
         //second sway point
         if (Vector3.Distance (pos, swayPos2) > .1)
-            transform.parent.parent.localPosition = Vector3.Slerp(pos, swayPos2, Time.deltaTime * 4);
+            transform.parent.parent.localPosition = Vector3.Slerp(pos, swayPos2, Time.deltaTime * bobSpeed);
         else swayTarget = 1;
 
     }
 
     void ResetPosition() {
         Vector3 pos = transform.parent.parent.localPosition;
-        transform.parent.parent.localPosition = Vector3.Lerp(pos, bobPosition, Time.deltaTime * 5);
+        transform.parent.parent.localPosition = Vector3.Lerp(pos, bobPosition, Time.deltaTime * (bobSpeed + 1));
     }
     
 }

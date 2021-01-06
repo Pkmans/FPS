@@ -10,14 +10,16 @@ public class Gun : MonoBehaviour
     public int damage;
     public int numBullets = 1;
 
+    //recoil
     public float recoil_Strength;
+    public float recoilSpeed;
     private float recoilTime;
     private Vector3 initialPosition;
 
     //ammo system
     public int maxAmmo;
     private int currentAmmo;
-    public float reloadTime = 1f;
+    public float reloadTime = 0.75f;
     private bool reloading;
     public TextMeshProUGUI ammo;
 
@@ -29,11 +31,11 @@ public class Gun : MonoBehaviour
 
     //particles and effects
     public ParticleSystem muzzleFlash;
-    public Vector3 upRecoil;
+    private Animator anim;
     // [HideInInspector]
     public Quaternion originalRotation;
 
-    
+    private bool canFire = true;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +44,7 @@ public class Gun : MonoBehaviour
         camComponent = cam.GetComponent<Camera>();
 
         currentAmmo = maxAmmo;
-        
+        anim = GetComponent<Animator>();
     }
 
     void OnEnable() {
@@ -55,16 +57,19 @@ public class Gun : MonoBehaviour
     {
         ammo.text = currentAmmo.ToString() + " / " + maxAmmo.ToString();
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && canFire && !reloading) {
             Fire();
             recoilTime = 0.1f;
         }
-            
+      
         Recoiling();
     }
 
     void Fire() {
         if (reloading) return;
+
+        canFire = false;
+        Invoke("ReadyFire", fireRate);
 
         Ray ray = camComponent.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
@@ -95,11 +100,13 @@ public class Gun : MonoBehaviour
 
     IEnumerator Reload() {
         reloading = true;
+        anim.enabled = true;
 
         yield return new WaitForSeconds(reloadTime);
 
         currentAmmo = maxAmmo;
         reloading = false;
+        anim.enabled = false;
     }
 
     void Recoiling() {
@@ -107,17 +114,21 @@ public class Gun : MonoBehaviour
             Quaternion maxRecoil = Quaternion.Euler(0, recoil_Strength, 0);
             Vector3 recoilPosition = new Vector3(0, -0.2f, 0.3f) + initialPosition;
 
-            transform.localPosition = Vector3.Lerp(transform.localPosition, recoilPosition, Time.deltaTime * 20);
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, maxRecoil, Time.deltaTime * 20);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, recoilPosition, Time.deltaTime * recoilSpeed);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, maxRecoil, Time.deltaTime * recoilSpeed);
             recoilTime -= Time.deltaTime;
         }
         else {
             recoilTime = 0;
             Quaternion minRecoil = Quaternion.Euler(0, 0, 0);
             
-            transform.localPosition = Vector3.Lerp(transform.localPosition, initialPosition, Time.deltaTime * 10);
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, minRecoil, Time.deltaTime * 10);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, initialPosition, Time.deltaTime * recoilSpeed/2);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, minRecoil, Time.deltaTime * recoilSpeed/2);
         } 
+    }
+
+    void ReadyFire() {
+        canFire = true;
     }
 
 }

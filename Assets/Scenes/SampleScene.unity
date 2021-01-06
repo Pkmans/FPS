@@ -922,6 +922,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &788039681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 788039682}
+  m_Layer: 10
+  m_Name: cam_Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &788039682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788039681}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.74, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 963194228}
+  m_Father: {fileID: 1707262262}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &880343475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,13 +1123,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.74, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 62597608}
-  m_Father: {fileID: 1707262262}
-  m_RootOrder: 1
+  m_Father: {fileID: 788039682}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
@@ -1402,7 +1433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 30
-  maxSpeed: 9
+  maxSpeed: 11
   jumpStrength: 550
   dashSpeed: 18
   turnSpeed: 30
@@ -1410,6 +1441,7 @@ MonoBehaviour:
   DEFAULT_DRAG: 0
   AIR_DRAG: 10
   COUNTER_DRAG: 25
+  SLIDING_DRAG: 10.5
   groundCheck: {fileID: 686148231}
   checkRadius: 0.25
   whatIsGround:
@@ -1429,7 +1461,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 186045042}
-  - {fileID: 963194228}
+  - {fileID: 788039682}
   - {fileID: 686148231}
   - {fileID: 1828136813}
   m_Father: {fileID: 0}
@@ -1448,9 +1480,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
-  reducedHeight: 0.5
   crouchPosition: {fileID: 1828136813}
   isSliding: 0
+  innerCol: {fileID: 1707262259}
+  outerCol: {fileID: 1707262266}
+  cam: {fileID: 788039681}
+  tiltSmooth: 10
 --- !u!114 &1707262264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3849,10 +3884,10 @@ PrefabInstance:
       propertyPath: upRecoil.y
       value: 65.34
       objectReference: {fileID: 0}
-    - target: {fileID: 1295230223580915758, guid: 7574fffc581d19d4caa7b3621740a6ad,
+    - target: {fileID: 1934267622724565727, guid: 7574fffc581d19d4caa7b3621740a6ad,
         type: 3}
-      propertyPath: recoil_Strength
-      value: 40
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2327634810266826797, guid: 7574fffc581d19d4caa7b3621740a6ad,
         type: 3}
@@ -3882,22 +3917,22 @@ PrefabInstance:
     - target: {fileID: 2856070368860641850, guid: 7574fffc581d19d4caa7b3621740a6ad,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071067
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856070368860641850, guid: 7574fffc581d19d4caa7b3621740a6ad,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000030908616
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856070368860641850, guid: 7574fffc581d19d4caa7b3621740a6ad,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000030908623
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856070368860641850, guid: 7574fffc581d19d4caa7b3621740a6ad,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2856070368860641850, guid: 7574fffc581d19d4caa7b3621740a6ad,
         type: 3}

@@ -53,8 +53,6 @@ public class PickUp : MonoBehaviour
         currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * 9);
         currentWeapon.transform.rotation = Quaternion.Slerp(currentWeapon.transform.rotation, equipPos.rotation, Time.deltaTime * 9);
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-
-        
         
 
         if (Vector3.Distance(currentWeapon.transform.position, equipPos.position) <= 0.1f) {
