@@ -93,14 +93,16 @@ public class Gun : MonoBehaviour
         //particles and effects
         muzzleFlash.Play();
         currentAmmo--;
+        AudioManager.instance.Play("pistolShot");
 
-        if (currentAmmo <= 0)
-            StartCoroutine(Reload());
+        if (currentAmmo <= 0) StartCoroutine(Reload());
+
     }
 
     IEnumerator Reload() {
         reloading = true;
         anim.enabled = true;
+        AudioManager.instance.Play("reload");
 
         yield return new WaitForSeconds(reloadTime);
 

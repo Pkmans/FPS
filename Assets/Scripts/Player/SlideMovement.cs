@@ -66,6 +66,8 @@ public class SlideMovement : MonoBehaviour
 
         rb.AddForce(slideDir * speed);
         isSliding = true;
+
+        AudioManager.instance.Play("sliding");
     }
     
     void Sliding() {
@@ -85,6 +87,9 @@ public class SlideMovement : MonoBehaviour
 
         isSliding = false;
         slideDir = Vector3.zero;
+
+        AudioManager.instance.Stop("sliding");
+
     }
     
     bool CheckIfOnSlope() {

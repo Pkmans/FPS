@@ -126,6 +126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   time: 4
+  impactEffect: {fileID: 8930360389332683886, guid: c8a0587f4c6a74746aa98731bd74eaf3,
+    type: 3}
   damage: 0
 --- !u!96 &-8378381089136941579
 TrailRenderer:

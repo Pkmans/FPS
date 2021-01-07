@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    
-    public float speed = 0f;
     public float time = 4f;
+    public GameObject impactEffect;
 
     [HideInInspector]
     //variables passed in from gun
@@ -39,6 +38,11 @@ public class Bullet : MonoBehaviour
             playerHp.TakeDamage(damage);
         }
         
+        //faces perpendicular to contact surface
+        if (impactEffect)
+            Instantiate(impactEffect, transform.position, Quaternion.LookRotation(col.contacts[0].normal, Vector3.up));
+
+
         Destroy(gameObject);
     }
 }

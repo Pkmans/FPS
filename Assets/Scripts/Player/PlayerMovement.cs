@@ -9,9 +9,10 @@ public class PlayerMovement : MonoBehaviour
     public float maxSpeed;
     public float jumpStrength = 10f;
     public float dashSpeed;
+    public float dashDuration = 0.15f;
     public float turnSpeed;
     public float extraGravity;
-    public float DEFAULT_DRAG ;
+    // public float DEFAULT_DRAG;
     public float AIR_DRAG;
     public float COUNTER_DRAG ;
     public float SLIDING_DRAG;
@@ -25,16 +26,15 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     public bool grounded;
 
+    public ParticleSystem dashParticles;
+
     //script references
     private SlideMovement slideScript;
     private bool isSliding;
 
-    //dashing
-    private bool dashing;
-
     private Rigidbody rb;
 
-    // [HideInInspector]
+    [HideInInspector]
     public bool walking;
 
     // Start is called before the first frame update
@@ -61,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
+        //bool for sliding script
         if (grounded && (x != 0 || z != 0))
             walking = true;
         else walking = false;
@@ -68,9 +69,6 @@ public class PlayerMovement : MonoBehaviour
     
     void FixedUpdate() {
         rb.AddForce(Vector3.down * extraGravity);
-
-        // if (isSliding) return;
-        // if (dashing) return;
 
         vel = CurVelocityRelativeToLook();
         Move();
@@ -123,18 +121,16 @@ public class PlayerMovement : MonoBehaviour
             Drag(SLIDING_DRAG);
             return;
         } else if (!grounded && isSliding) {
-            rb.drag = DEFAULT_DRAG;
+            Drag(0);
             return;
         }
-            
             
         //DRAG FOR GROUND, MID-AIR, AND DEFAULT
         if (grounded && noInputs)
             Drag(COUNTER_DRAG);
         else if (!grounded && noInputs)
             Drag(AIR_DRAG);
-        else
-            rb.drag = DEFAULT_DRAG;
+        else Drag(0);
     }
 
     void Drag(float dragStrength) {
@@ -156,54 +152,72 @@ public class PlayerMovement : MonoBehaviour
     }
 
     ///set velocity method
-    // IEnumerator Dash() {
-    //     float x = Input.GetAxisRaw("Horizontal");
-    //     float z = Input.GetAxisRaw("Vertical");
-
-    //     //choose dash direction
-    //     if (z > 0) rb.velocity = transform.forward * dashSpeed;
-    //     if (z < 0) rb.velocity = -transform.forward * dashSpeed;
-    //     if (x > 0) rb.velocity = transform.right * dashSpeed;
-    //     if (x < 0) rb.velocity = -transform.right * dashSpeed;
-
-    //     rb.useGravity = false;
-
-    //     float temp = COUNTER_DRAG;
-    //     COUNTER_DRAG = 0f;
-
-    //     yield return new WaitForSeconds(0.2f);
-
-    //     COUNTER_DRAG = temp;
-
-    //     StopDash();
-    // }
-
-    ///add force method
     IEnumerator Dash() {
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
 
-        //zero out velocity except y-axis
-        Vector3 resetVel = new Vector3(0, rb.velocity.y, 0);
-        rb.velocity = resetVel;
+        float xVel = vel.x;
+        float zVel = vel.y;
 
-        //choose dash direction
-        if (z > 0) rb.AddForce(transform.forward * dashSpeed, ForceMode.Impulse);
-        if (z < 0) rb.AddForce(-transform.forward * dashSpeed, ForceMode.Impulse);
-        if (x > 0) rb.AddForce(transform.right * dashSpeed, ForceMode.Impulse);
-        if (x < 0) rb.AddForce(-transform.right * dashSpeed, ForceMode.Impulse);
+        dashParticles.Play();
 
-        yield return new WaitForSeconds(0.00001f);
-  
-        dashing = false;
+        //default dash forward if no inputs
+        if (x == 0 & z == 0) rb.velocity = transform.forward * dashSpeed;
+            
+        //diagonal dash directions
+        if (z > 0 && x > 0) rb.velocity = (transform.forward + transform.right).normalized * dashSpeed;
+        else if (z > 0 && x < 0) rb.velocity = (transform.forward - transform.right).normalized * dashSpeed;
+        else if (z < 0 && x < 0) rb.velocity = (-transform.forward - transform.right).normalized * dashSpeed;
+        else if (z < 0 && x > 0) rb.velocity = (-transform.forward + transform.right).normalized * dashSpeed;
+        //choose dash direction (left right forward backward)
+        else if (z > 0) rb.velocity = transform.forward * dashSpeed;
+        else if (z < 0) rb.velocity = -transform.forward * dashSpeed;
+        else if (x > 0) rb.velocity = transform.right * dashSpeed;
+        else if (x < 0) rb.velocity = -transform.right * dashSpeed;
+
+        rb.useGravity = false;
+
+        yield return new WaitForSeconds(dashDuration); //dash duration
+
+        EndDash();
     }
 
-
-    void StopDash() {
+    void EndDash() {
+        dashParticles.Stop();
         rb.useGravity = true;
-        rb.velocity = Vector3.zero;
-        dashing = false;
+        
+        float reducedSpeed = maxSpeed + 5;
+
+        Vector3 diagonalVector = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        Vector3 clampedVector = Vector3.ClampMagnitude(diagonalVector, reducedSpeed);
+
+        rb.velocity = clampedVector + new Vector3(0, rb.velocity.y, 0);
     }
+
+  
+
+    ///add force method
+    // IEnumerator Dash() {
+    //     float x = Input.GetAxisRaw("Horizontal");
+    //     float z = Input.GetAxisRaw("Vertical");
+
+    //     //zero out velocity except y-axis
+    //     Vector3 resetVel = new Vector3(0, rb.velocity.y, 0);
+    //     rb.velocity = resetVel;
+
+    //     //choose dash direction
+    //     if (z > 0) rb.AddForce(transform.forward * dashSpeed, ForceMode.Impulse);
+    //     if (z < 0) rb.AddForce(-transform.forward * dashSpeed, ForceMode.Impulse);
+    //     if (x > 0) rb.AddForce(transform.right * dashSpeed, ForceMode.Impulse);
+    //     if (x < 0) rb.AddForce(-transform.right * dashSpeed, ForceMode.Impulse);
+
+    //     yield return new WaitForSeconds(0.00001f);
+  
+    //     dashing = false;
+    // }
+
+
+    
 
 
 }
