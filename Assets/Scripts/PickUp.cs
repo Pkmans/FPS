@@ -36,6 +36,8 @@ public class PickUp : MonoBehaviour
     }
 
     void CheckGrab() {
+        if (currentWeapon) return;
+
         RaycastHit hit;
 
         if (Physics.Raycast(cam.position, cam.forward, out hit, distance)) {
@@ -43,8 +45,8 @@ public class PickUp : MonoBehaviour
                 currentWeapon = hit.transform.gameObject;
                 canGrab = true;
             }    
-        }
-        else canGrab = false;
+        } else 
+            canGrab = false;
     }
 
     void PickUpWeapon() {
@@ -53,7 +55,6 @@ public class PickUp : MonoBehaviour
         currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * 9);
         currentWeapon.transform.rotation = Quaternion.Slerp(currentWeapon.transform.rotation, equipPos.rotation, Time.deltaTime * 9);
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-        
 
         if (Vector3.Distance(currentWeapon.transform.position, equipPos.position) <= 0.1f) {
             pickingUp = false;
@@ -66,6 +67,8 @@ public class PickUp : MonoBehaviour
         currentWeapon.transform.parent = null;
         currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
         currentWeapon.GetComponent<Gun>().enabled = false;
+        currentWeapon.GetComponent<WeaponSway>().enabled = false;
+
 
         currentWeapon = null;
         pickingUp = false;

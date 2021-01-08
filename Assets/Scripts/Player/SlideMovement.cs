@@ -5,7 +5,7 @@ using UnityEngine;
 public class SlideMovement : MonoBehaviour
 {
     //public variables
-    public float speed;
+    public float launchSpeed;
 
     //local variables for methods
     public Transform crouchPosition;
@@ -42,16 +42,14 @@ public class SlideMovement : MonoBehaviour
         else ResetTilt();
     }
 
-    void FixedUpdate() {
-
+    void Slide() {
+        if (Input.GetKey(KeyCode.LeftControl))
+            StartSlide();
+        else FinishSlide();
     }
 
-    void Slide() {
-        if (Input.GetKey(KeyCode.LeftControl)) {
-            StartSlide();
-            Sliding();
-        } 
-        else FinishSlide();
+    void FixedUpdate() {
+        Sliding();
     }
 
     void StartSlide() {
@@ -64,19 +62,28 @@ public class SlideMovement : MonoBehaviour
 
         transform.position = crouchPosition.position;
 
-        rb.AddForce(slideDir * speed);
+        //boost in speed when starting slide
+        rb.AddForce(slideDir * launchSpeed * 1.5f);
         isSliding = true;
 
         AudioManager.instance.Play("sliding");
     }
     
     void Sliding() {
-        if (CheckIfOnSlope()) {
-            rb.AddForce(slideDir * 10f);
+        if (!movementScript.grounded || !isSliding) return;
 
-            //downward force to keep player on slope
-            rb.AddForce(Vector3.down * 10f);
-        }
+        Vector3 slopeDirection = Vector3.zero;
+
+        //calculate angle of slope
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, innerCol.height/2 * 3f))
+            slopeDirection = hit.normal;
+    
+        float groundAngle = Vector3.Angle(Vector3.up, slopeDirection);
+
+        //steeper slope, faster speed
+        rb.AddForce(slideDir * groundAngle / 6);
+        rb.AddForce(Vector3.down * 10f);
     }
 
     void FinishSlide() {
@@ -89,17 +96,6 @@ public class SlideMovement : MonoBehaviour
         slideDir = Vector3.zero;
 
         AudioManager.instance.Stop("sliding");
-
-    }
-    
-    bool CheckIfOnSlope() {
-        if (!movementScript.grounded) return false;
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, innerCol.height/2 * 3f))
-            return (Vector3.Distance(hit.normal, Vector3.up) > .1f);
-        else
-            return false;
     }
 
     void changeHeight(float newHeight) {

@@ -4,34 +4,39 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Properties")]
     //public variables
     public float moveSpeed = 10f;
     public float maxSpeed;
     public float jumpStrength = 10f;
+    private float numOfJumps = 2f;
     public float dashSpeed;
     public float dashDuration = 0.15f;
     public float turnSpeed;
     public float extraGravity;
+
     // public float DEFAULT_DRAG;
+    [Header("Drag")]
     public float AIR_DRAG;
-    public float COUNTER_DRAG ;
+    public float COUNTER_DRAG;
     public float SLIDING_DRAG;
 
-    //global velocity vars
-    Vector2 vel;
-
+    [Header("GroundCheck")]
     //groundchecks
     public Transform groundCheck;
     public float checkRadius;
     public LayerMask whatIsGround;
     public bool grounded;
 
+    [Header("E.t.c.")]
     public ParticleSystem dashParticles;
 
     //script references
     private SlideMovement slideScript;
     private bool isSliding;
 
+    //global velocity vars
+    private Vector2 vel;
     private Rigidbody rb;
 
     [HideInInspector]
@@ -48,11 +53,12 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         grounded = Physics.CheckSphere(groundCheck.position, checkRadius, whatIsGround);
-        bool jumping = Input.GetButtonDown("Jump");
         isSliding = slideScript.isSliding;
 
-        if (grounded && jumping) 
-            Jump();
+        if (Input.GetButtonDown("Jump")) Jump(); 
+
+        if (grounded && numOfJumps < 2)
+            numOfJumps = 2;
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
             StartCoroutine(Dash());
@@ -110,7 +116,18 @@ public class PlayerMovement : MonoBehaviour
     }
     
     void Jump() {
-        rb.AddForce(transform.up * jumpStrength);
+        if (numOfJumps == 0) return;
+
+        if (grounded) {
+            rb.AddForce(transform.up * jumpStrength);
+            numOfJumps--;
+        } else {
+            Vector3 vel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            rb.velocity = vel;
+            rb.AddForce(transform.up * jumpStrength);
+            numOfJumps = 0;
+        }
+
     }
 
     void CounterMovement(float x, float z) {
@@ -194,7 +211,9 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = clampedVector + new Vector3(0, rb.velocity.y, 0);
     }
 
-  
+    public void KnockBack(Vector3 knockDirection) {
+        rb.AddForce(knockDirection, ForceMode.Impulse);
+    }
 
     ///add force method
     // IEnumerator Dash() {

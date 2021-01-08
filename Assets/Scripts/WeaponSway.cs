@@ -19,6 +19,7 @@ public class WeaponSway : MonoBehaviour
 
     private Animator anim;
     private PlayerMovement player;
+    private SlideMovement slide;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -33,6 +34,7 @@ public class WeaponSway : MonoBehaviour
         // //animator of equipParent
         // anim = transform.parent.parent.GetComponent<Animator>();
         player = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
+        slide = GameObject.FindWithTag("Player").GetComponent<SlideMovement>();
     }
 
     // Update is called once per frame
@@ -59,6 +61,8 @@ public class WeaponSway : MonoBehaviour
     }
 
     void WalkSway() {
+        if (slide.isSliding) return;
+        
         Vector3 pos = transform.parent.parent.localPosition; ///gameobject equipParent's position
 
         //first sway point
@@ -79,7 +83,7 @@ public class WeaponSway : MonoBehaviour
 
     void ResetPosition() {
         Vector3 pos = transform.parent.parent.localPosition;
-        transform.parent.parent.localPosition = Vector3.Lerp(pos, bobPosition, Time.deltaTime * (bobSpeed + 1));
+        transform.parent.parent.localPosition = Vector3.Slerp(pos, bobPosition, Time.deltaTime * (bobSpeed + 1));
     }
     
 }
