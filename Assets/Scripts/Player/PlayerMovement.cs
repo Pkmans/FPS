@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public float extraGravity;
 
     [Header("WallRunning")]
+    public float tiltAngle;
     public float tiltSmooth;
     public float wallrunForce, sideHopForce = 1.5f;
     public float maxWallrunTime, maxWallSpeed;
@@ -144,11 +145,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (isWallRunning) {
             //sideways wall hop
-            if (isWallRight && Input.GetKey(KeyCode.A)) rb.AddForce(-transform.right * jumpStrength * sideHopForce);
-            if (isWallLeft && Input.GetKey(KeyCode.D)) rb.AddForce(transform.right * jumpStrength * sideHopForce);
+            if (isWallRight && Input.GetKey(KeyCode.A)) rb.AddForce(-transform.right * sideHopForce);
+            if (isWallLeft && Input.GetKey(KeyCode.D)) rb.AddForce(transform.right * sideHopForce);
 
             //little bit of forward force
-            rb.AddForce(transform.forward * jumpStrength);
+            rb.AddForce(transform.forward * jumpStrength / 2);
         }
 
         if (grounded) {
@@ -194,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    Vector2 CurVelocityRelativeToLook() {
+    public Vector2 CurVelocityRelativeToLook() {
         float xVel = transform.InverseTransformDirection(rb.velocity).x;
         float zVel = transform.InverseTransformDirection(rb.velocity).z;
 
@@ -268,17 +269,26 @@ public class PlayerMovement : MonoBehaviour
     //     dashing = false;
     // }
 
-    ///wallrunning script
+    ///
+    ///WALLRUNNING SCRIPT
+    ///
     private void WallRunInput() {
-        if (Input.GetKey(KeyCode.D) && isWallRight) StartWallRun();
-        if (Input.GetKey(KeyCode.A) && isWallLeft) StartWallRun();
+        if (Input.GetKey(KeyCode.D) && isWallRight && !grounded) StartWallRun();
+        if (Input.GetKey(KeyCode.A) && isWallLeft && !grounded) StartWallRun();
     }
 
     private void StartWallRun() {
+        if (!isWallRunning) {
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            rb.AddForce(transform.up * 375f);
+        }
         rb.useGravity = false;
         isWallRunning = true;
 
-        rb.AddForce(transform.forward * wallrunForce);
+        float z = Input.GetAxisRaw("Vertical");
+
+        Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
+        if (flatVel.magnitude < maxWallSpeed) rb.AddForce(transform.forward * wallrunForce);
 
         //make sure player sticks to the wall
         if (isWallRight) rb.AddForce(transform.right * wallrunForce / 5);
@@ -287,35 +297,36 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void StopWallRun() {
+        if (isWallRunning) numOfJumps = 1;
+
         rb.useGravity = true;
         isWallRunning = false;
 
-        numOfJumps = 1;
     }
 
     private void CheckForWall() {
         RaycastHit hit;
 
-        //checks if there's a wall on left and right of player
-        if (Physics.Raycast(transform.position, transform.right, out hit, 1f))
+        //checks if there's a wall on left of player
+        if (Physics.Raycast(transform.position, transform.right, out hit, 1f, whatIsGround))
             isWallRight = Mathf.Abs(Vector3.Dot(hit.normal, Vector3.up)) < 0.1f;
         else isWallRight = false;
 
-        if (Physics.Raycast(transform.position, -transform.right, out hit, 1f))
+        //checks if there's a wall on right of player
+        if (Physics.Raycast(transform.position, -transform.right, out hit, 1f, whatIsGround))
             isWallLeft = Mathf.Abs(Vector3.Dot(hit.normal, Vector3.up)) < 0.1f;
         else isWallLeft = false;
 
-        //leave wall run
-        if (!isWallRight && !isWallLeft) StopWallRun();
+        //leave wall run if no walls, or if grounded
+        if (grounded || (!isWallRight && !isWallLeft)) StopWallRun();
     }
 
     void TiltCamera(float direction) {
         Quaternion tiltRotation;
 
-        //right = direction > 0
-        //left = dirdection < 0
-        if (direction > 0) tiltRotation = Quaternion.Euler(0, 0, 45);
-        else tiltRotation = Quaternion.Euler(0, 0, -45);
+        //direction > 0 is tilt right, direction < 0 is tilt left
+        if (direction > 0) tiltRotation = Quaternion.Euler(0, 0, tiltAngle);
+        else tiltRotation = Quaternion.Euler(0, 0, -tiltAngle);
 
         cam.transform.localRotation = Quaternion.Lerp(cam.transform.localRotation, tiltRotation, Time.deltaTime * tiltSmooth);
     }

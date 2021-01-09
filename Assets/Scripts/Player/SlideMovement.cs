@@ -6,6 +6,8 @@ public class SlideMovement : MonoBehaviour
 {
     //public variables
     public float launchSpeed;
+    public float tiltAngle;
+    public float tiltSmooth;
 
     //local variables for methods
     public Transform crouchPosition;
@@ -21,7 +23,6 @@ public class SlideMovement : MonoBehaviour
 
     //camera tilt
     public GameObject cam;
-    public float tiltSmooth;
     private Quaternion initialRotation;
 
     // Start is called before the first frame update
@@ -106,13 +107,28 @@ public class SlideMovement : MonoBehaviour
     }
 
     void Tilt() {
-        Quaternion tiltRotation = Quaternion.Euler(0, 0, 5);
+        Vector2 vel = movementScript.CurVelocityRelativeToLook();
+        float xVel = vel.x;
+        float zVel = vel.y;
+
+
+        if (!angleSet) {
+            if (xVel < 0) 
+                tiltRotation = Quaternion.Euler(0, 0, -tiltAngle);
+            else 
+                tiltRotation = Quaternion.Euler(0, 0, tiltAngle);
+
+            angleSet = true;
+        }
+        
         cam.transform.localRotation = Quaternion.Lerp(cam.transform.localRotation, tiltRotation, Time.deltaTime * tiltSmooth);
     }
 
     void ResetTilt() {
         cam.transform.localRotation = Quaternion.Lerp(cam.transform.localRotation, initialRotation, Time.deltaTime * tiltSmooth);
+        angleSet = false;
     }
 
-    
+    private Quaternion tiltRotation;
+    private bool angleSet;
 }

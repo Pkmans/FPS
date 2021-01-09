@@ -55,6 +55,7 @@ public class PickUp : MonoBehaviour
         currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * 9);
         currentWeapon.transform.rotation = Quaternion.Slerp(currentWeapon.transform.rotation, equipPos.rotation, Time.deltaTime * 9);
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+        currentWeapon.layer = 14;   //set layer to 'localGun'
 
         if (Vector3.Distance(currentWeapon.transform.position, equipPos.position) <= 0.1f) {
             pickingUp = false;
@@ -68,6 +69,7 @@ public class PickUp : MonoBehaviour
         currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
         currentWeapon.GetComponent<Gun>().enabled = false;
         currentWeapon.GetComponent<WeaponSway>().enabled = false;
+        currentWeapon.layer = 0; //set layer back to 'default'
 
 
         currentWeapon = null;

@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 8595596003906137664}
   - component: {fileID: 8595596003906137665}
   - component: {fileID: 8595596003906137670}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: shotgun
   m_TagString: canGrab
   m_Icon: {fileID: 0}
@@ -517,6 +517,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243672341616116118, guid: 1a2233111411d05438cb7b9bd2d3afe9,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a2233111411d05438cb7b9bd2d3afe9, type: 3}

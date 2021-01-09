@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 461028961976320300}
   - component: {fileID: 461028961976320299}
   - component: {fileID: 3524882341005891217}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: rifle
   m_TagString: canGrab
   m_Icon: {fileID: 0}
