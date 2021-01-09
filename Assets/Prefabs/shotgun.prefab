@@ -281,7 +281,6 @@ GameObject:
   - component: {fileID: 8031438805682985630}
   - component: {fileID: 8595596003906137671}
   - component: {fileID: 8595596003906137664}
-  - component: {fileID: 8595596003906137669}
   - component: {fileID: 8595596003906137665}
   - component: {fileID: 8595596003906137670}
   m_Layer: 10
@@ -386,25 +385,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 3814378201483603881, guid: 853b4bcfaf7ea4d46a49864a6e6afece, type: 3}
---- !u!95 &8595596003906137669
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8595596003906137666}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9648e38c37420c448bdf88ae4ffc43b9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8595596003906137665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,7 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af57af56dfe00e4a8843662988cfca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 45
+  bulletSpeed: 95
   fireRate: 1
   damage: 1
   numBullets: 6

@@ -82,7 +82,7 @@ public class SlideMovement : MonoBehaviour
         float groundAngle = Vector3.Angle(Vector3.up, slopeDirection);
 
         //steeper slope, faster speed
-        rb.AddForce(slideDir * groundAngle / 6);
+        rb.AddForce(slideDir * groundAngle / 5);
         rb.AddForce(Vector3.down * 10f);
     }
 

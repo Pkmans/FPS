@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 461028961976320303}
   - component: {fileID: 461028961976320300}
   - component: {fileID: 461028961976320299}
-  - component: {fileID: 461028961976320298}
   - component: {fileID: 3524882341005891217}
   m_Layer: 10
   m_Name: rifle
@@ -131,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af57af56dfe00e4a8843662988cfca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 45
+  bulletSpeed: 95
   fireRate: 0.12
   damage: 1
   numBullets: 1
@@ -261,25 +260,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &461028961976320298
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461028961976320288}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9648e38c37420c448bdf88ae4ffc43b9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!65 &3524882341005891217
 BoxCollider:
   m_ObjectHideFlags: 0

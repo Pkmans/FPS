@@ -53,7 +53,7 @@ public class Gun : MonoBehaviour
         camComponent = cam.GetComponent<Camera>();
 
         currentAmmo = maxAmmo;
-        anim = GetComponent<Animator>();
+        anim = transform.parent.GetComponent<Animator>();
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
     }
 

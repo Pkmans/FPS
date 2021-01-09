@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 704042627375422709}
   - component: {fileID: 7122574824239313190}
   - component: {fileID: 7122574824239313191}
-  - component: {fileID: 1934267622724565727}
   - component: {fileID: 1295230223580915758}
   - component: {fileID: 2695814600592681732}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: pistol
   m_TagString: canGrab
   m_Icon: {fileID: 0}
@@ -117,25 +116,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: -1
   m_Mesh: {fileID: 1220828769319070387, guid: 6a67ac23d67a93c4d8a339ea386d7a92, type: 3}
---- !u!95 &1934267622724565727
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295230223580915753}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9648e38c37420c448bdf88ae4ffc43b9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1295230223580915758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af57af56dfe00e4a8843662988cfca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 45
+  bulletSpeed: 95
   fireRate: 0.25
   damage: 1
   numBullets: 1
@@ -193,7 +173,7 @@ GameObject:
   - component: {fileID: 4061828652464590713}
   - component: {fileID: 1680530788868212821}
   - component: {fileID: 6538624861918149693}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +252,7 @@ GameObject:
   - component: {fileID: 1305059710579812748}
   - component: {fileID: 4814312526514832609}
   - component: {fileID: 1730394776795783088}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7122574822981789220}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
