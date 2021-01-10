@@ -134,7 +134,6 @@ public class PlayerMovement : MonoBehaviour
         if (zVel < -0.2f && z > 0) rb.AddForce(transform.forward * turnSpeed);  
         if (xVel > 0.2f && x < 0) rb.AddForce(-transform.right * turnSpeed);   
         if (xVel < -0.2f && x > 0) rb.AddForce(transform.right * turnSpeed);  
-
     }
     
     void Jump() {
@@ -273,15 +272,17 @@ public class PlayerMovement : MonoBehaviour
     ///WALLRUNNING SCRIPT
     ///
     private void WallRunInput() {
-        if (Input.GetKey(KeyCode.D) && isWallRight && !grounded) StartWallRun();
-        if (Input.GetKey(KeyCode.A) && isWallLeft && !grounded) StartWallRun();
+        if (Input.GetKey(KeyCode.D) && isWallRight && !grounded) WallRun();
+        if (Input.GetKey(KeyCode.A) && isWallLeft && !grounded) WallRun();
     }
 
-    private void StartWallRun() {
+    private void WallRun() {
+        //small vertical boost at start of wall run
         if (!isWallRunning) {
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             rb.AddForce(transform.up * 375f);
         }
+
         rb.useGravity = false;
         isWallRunning = true;
 
@@ -318,7 +319,8 @@ public class PlayerMovement : MonoBehaviour
         else isWallLeft = false;
 
         //leave wall run if no walls, or if grounded
-        if (grounded || (!isWallRight && !isWallLeft)) StopWallRun();
+        if (grounded || (!isWallRight && !isWallLeft)) 
+            StopWallRun();
     }
 
     void TiltCamera(float direction) {
