@@ -18,10 +18,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("WallRunning")]
     public float tiltAngle;
     public float tiltSmooth;
-    public float wallrunForce, sideHopForce = 1.5f;
-    public float maxWallrunTime, maxWallSpeed;
-    private bool isWallRight, isWallLeft;
+    public float wallrunForce, wallHopForce;
+    public float speedMultiplier = 1.3f;
+    private bool isWallRight, isWallLeft, isWallFront, isWallBack;
     private bool isWallRunning;
+    private bool touchingWall;
     private Quaternion initialRotation;
 
     // public float DEFAULT_DRAG;
@@ -96,7 +97,9 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(Vector3.down * extraGravity);
 
         CheckForWall();
-        WallRunInput();
+        if (!grounded && touchingWall && !isWallRunning)
+            StartWallRun();
+        WallRun();
 
         vel = CurVelocityRelativeToLook();
         Move();
@@ -142,13 +145,16 @@ public class PlayerMovement : MonoBehaviour
         anim.enabled = true;
         anim.SetTrigger("jump");
 
+        ///wallrunning jumps
         if (isWallRunning) {
-            //sideways wall hop
-            if (isWallRight && Input.GetKey(KeyCode.A)) rb.AddForce(-transform.right * sideHopForce);
-            if (isWallLeft && Input.GetKey(KeyCode.D)) rb.AddForce(transform.right * sideHopForce);
+            //wall hop
+            if (isWallRight && Input.GetKey(KeyCode.A)) rb.AddForce(-transform.right * wallHopForce);
+            if (isWallLeft && Input.GetKey(KeyCode.D)) rb.AddForce(transform.right * wallHopForce);
+            if (isWallFront && Input.GetKey(KeyCode.S)) rb.AddForce(-transform.forward * wallHopForce * 1.13f);
+            if (isWallBack && Input.GetKey(KeyCode.W)) rb.AddForce(transform.forward * wallHopForce * 1.13f);
 
             //little bit of forward force
-            rb.AddForce(transform.forward * jumpStrength / 2);
+            // rb.AddForce(transform.forward * jumpStrength / 2);
         }
 
         if (grounded) {
@@ -248,78 +254,67 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(knockDirection, ForceMode.Impulse);
     }
 
-    ///add force method
-    // IEnumerator Dash() {
-    //     float x = Input.GetAxisRaw("Horizontal");
-    //     float z = Input.GetAxisRaw("Vertical");
-
-    //     //zero out velocity except y-axis
-    //     Vector3 resetVel = new Vector3(0, rb.velocity.y, 0);
-    //     rb.velocity = resetVel;
-
-    //     //choose dash direction
-    //     if (z > 0) rb.AddForce(transform.forward * dashSpeed, ForceMode.Impulse);
-    //     if (z < 0) rb.AddForce(-transform.forward * dashSpeed, ForceMode.Impulse);
-    //     if (x > 0) rb.AddForce(transform.right * dashSpeed, ForceMode.Impulse);
-    //     if (x < 0) rb.AddForce(-transform.right * dashSpeed, ForceMode.Impulse);
-
-    //     yield return new WaitForSeconds(0.00001f);
-  
-    //     dashing = false;
-    // }
 
     ///
     ///WALLRUNNING SCRIPT
     ///
-    private void WallRunInput() {
-        if (Input.GetKey(KeyCode.D) && isWallRight && !grounded) WallRun();
-        if (Input.GetKey(KeyCode.A) && isWallLeft && !grounded) WallRun();
+    void OnCollisionEnter(Collision col) {
+        if (Mathf.Abs(Vector3.Dot(col.contacts[0].normal, Vector3.up)) < 0.1f)
+            touchingWall = true;
+    }
+
+    void StartWallRun() {
+        //small vertical boost at start of wall run
+        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        rb.AddForce(transform.up * 375f);
+    
+        rb.useGravity = false;
+        isWallRunning = true;
+        maxSpeed *= speedMultiplier;
     }
 
     private void WallRun() {
-        //small vertical boost at start of wall run
-        if (!isWallRunning) {
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-            rb.AddForce(transform.up * 375f);
-        }
-
-        rb.useGravity = false;
-        isWallRunning = true;
-
-        float z = Input.GetAxisRaw("Vertical");
-
-        Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
-        if (flatVel.magnitude < maxWallSpeed) rb.AddForce(transform.forward * wallrunForce);
+        if (!isWallRunning) return;
 
         //make sure player sticks to the wall
-        if (isWallRight) rb.AddForce(transform.right * wallrunForce / 5);
-        if (isWallLeft) rb.AddForce(-transform.right * wallrunForce / 5);
-
+        if (isWallRight) rb.AddForce(transform.right * wallrunForce * 1.3f);
+        if (isWallLeft) rb.AddForce(-transform.right * wallrunForce * 1.3f);
+        if (isWallFront) rb.AddForce(transform.forward * wallrunForce * 1.3f);
+        if (isWallBack) rb.AddForce(-transform.forward * wallrunForce * 1.3f);
     }
 
     private void StopWallRun() {
-        if (isWallRunning) numOfJumps = 1;
+        numOfJumps = 1;
 
         rb.useGravity = true;
         isWallRunning = false;
-
+        maxSpeed /= speedMultiplier;
     }
 
     private void CheckForWall() {
+        ///changes
         RaycastHit hit;
 
-        //checks if there's a wall on left of player
-        if (Physics.Raycast(transform.position, transform.right, out hit, 1f, whatIsGround))
+        //checks if there's a wall on all four sides of player
+        if (Physics.Raycast(transform.position, transform.right, out hit, .8f, whatIsGround))
             isWallRight = Mathf.Abs(Vector3.Dot(hit.normal, Vector3.up)) < 0.1f;
         else isWallRight = false;
-
-        //checks if there's a wall on right of player
-        if (Physics.Raycast(transform.position, -transform.right, out hit, 1f, whatIsGround))
+        if (Physics.Raycast(transform.position, -transform.right, out hit, .8f, whatIsGround))
             isWallLeft = Mathf.Abs(Vector3.Dot(hit.normal, Vector3.up)) < 0.1f;
         else isWallLeft = false;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, .8f, whatIsGround))
+            isWallFront = Mathf.Abs(Vector3.Dot(hit.normal, Vector3.up)) < 0.1f;
+        else isWallFront = false;
+        if (Physics.Raycast(transform.position, -transform.forward, out hit, .8f, whatIsGround))
+            isWallBack = Mathf.Abs(Vector3.Dot(hit.normal, Vector3.up)) < 0.1f;
+        else isWallBack = false;
+
+
+        if (!isWallFront && !isWallBack && !isWallLeft && !isWallRight)
+            touchingWall = false;
 
         //leave wall run if no walls, or if grounded
-        if (grounded || (!isWallRight && !isWallLeft)) 
+        if (isWallRunning && (grounded || !touchingWall))
             StopWallRun();
     }
 

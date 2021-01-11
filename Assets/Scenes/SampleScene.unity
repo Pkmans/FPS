@@ -6834,9 +6834,8 @@ MonoBehaviour:
   tiltAngle: 55
   tiltSmooth: 3
   wallrunForce: 20
-  sideHopForce: 900
-  maxWallrunTime: 4
-  maxWallSpeed: 13
+  wallHopForce: 900
+  speedMultiplier: 1.35
   AIR_DRAG: 10
   COUNTER_DRAG: 28
   SLIDING_DRAG: 3.5
