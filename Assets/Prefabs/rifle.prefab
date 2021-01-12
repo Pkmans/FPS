@@ -282,7 +282,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3654914200216654217}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 3441578875547559536}
   - component: {fileID: 57987942999597404}
   - component: {fileID: 5557915590796825908}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 396583429865422981}
   - component: {fileID: 6148449090041982440}
   - component: {fileID: 1125876280214779577}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ PrefabInstance:
     - target: {fileID: 7243672341616116116, guid: 1a2233111411d05438cb7b9bd2d3afe9,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a2233111411d05438cb7b9bd2d3afe9, type: 3}

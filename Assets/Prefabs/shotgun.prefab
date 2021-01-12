@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 317604998215634677}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1679898547865420587}
   - component: {fileID: 9055449864109635468}
   - component: {fileID: 8143170173882313814}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 6840589203077826834}
   - component: {fileID: 8206215865007115838}
   - component: {fileID: 4327388233406052950}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 4938389058036495584}
   - component: {fileID: 3244252763299704669}
   - component: {fileID: 2025947027359464124}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: cylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

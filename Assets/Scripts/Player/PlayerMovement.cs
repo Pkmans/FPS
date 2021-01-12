@@ -271,6 +271,9 @@ public class PlayerMovement : MonoBehaviour
         rb.useGravity = false;
         isWallRunning = true;
         maxSpeed *= speedMultiplier;
+
+        if (numOfJumps <= 0) 
+            numOfJumps = 1;
     }
 
     private void WallRun() {
@@ -329,7 +332,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void ResetTilt() {
-        cam.transform.localRotation = Quaternion.Lerp(cam.transform.localRotation, initialRotation, Time.deltaTime * tiltSmooth);
+        cam.transform.localRotation = Quaternion.Lerp(cam.transform.localRotation, initialRotation, Time.deltaTime * (tiltSmooth - 0.4f));
     }
 
 

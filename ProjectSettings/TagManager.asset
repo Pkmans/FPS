@@ -8,6 +8,7 @@ TagManager:
   - ragdollEnemy
   - PlayerProjectile
   - EnemyProjectile
+  - Spawner
   layers:
   - Default
   - TransparentFX

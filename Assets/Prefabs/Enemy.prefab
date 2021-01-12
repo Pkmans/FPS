@@ -1263,6 +1263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   blood: {fileID: 6799708177754836193, guid: e8689de781a787449ab831f33150e94b, type: 3}
+  madeFromSpawner: 0
 --- !u!114 &4197816358233402189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1292,8 +1293,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   player: {fileID: 0}
-  sightRange: 14
-  attackRange: 7
+  sightRange: 20
+  attackRange: 8
   playerInSightRange: 0
   playerInAttackRange: 0
 --- !u!195 &4197816358233402193
@@ -1306,7 +1307,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 4
-  m_Speed: 3.5
+  m_Speed: 6
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

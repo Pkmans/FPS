@@ -10,6 +10,9 @@ public class EnemyHealth : MonoBehaviour
     public GameObject blood;
     private Transform bloodSplatterPos;
 
+    [HideInInspector]
+    public bool madeFromSpawner;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,10 +36,11 @@ public class EnemyHealth : MonoBehaviour
         if (health <= 0) 
             Die();
 
-        Instantiate(blood, bloodSplatterPos.position, blood.transform.rotation);
     }
 
     void Die() {
+        Instantiate(blood, bloodSplatterPos.position, blood.transform.rotation);
+
         RagDoll ragdoll = GetComponent<RagDoll>();
             if (ragdoll)
                 ragdoll.ToggleRagdoll(true);
@@ -45,6 +49,10 @@ public class EnemyHealth : MonoBehaviour
             if (ai)
                 ai.DisableAI();
 
+
+        if (madeFromSpawner)
+            GameObject.FindWithTag("Spawner").GetComponent<Spawner>().enemyCount--;
+            
         anim.enabled = false;
     }
 

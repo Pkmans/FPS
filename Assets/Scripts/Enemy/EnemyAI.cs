@@ -38,9 +38,8 @@ public class EnemyAI : MonoBehaviour
 
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
 
-        if (playerInSightRange && playerInAttackRange)
-            AttackPlayer();
-        else if (enemyGun) 
+        if (playerInSightRange && playerInAttackRange) AttackPlayer();
+        else if (enemyGun)
             enemyGun.inAttackState = false;
     }
 
