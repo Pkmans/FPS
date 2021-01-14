@@ -72,11 +72,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1054435796064714315}
+  - component: {fileID: 1054435796064714313}
   - component: {fileID: 1054435796064714312}
   - component: {fileID: 1054435796064714314}
   - component: {fileID: 1054435796064714309}
   - component: {fileID: 1054435796064714308}
-  - component: {fileID: 1054435796064714313}
+  - component: {fileID: 4133805917556501506}
   - component: {fileID: 1054435796064714318}
   - component: {fileID: 1054435796064714311}
   m_Layer: 10
@@ -105,6 +106,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 174.966, z: 0}
+--- !u!54 &1054435796064714313
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054435796064714319}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.5
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!114 &1054435796064714312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,19 +135,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 30
-  maxSpeed: 9
-  jumpStrength: 600
+  maxSpeed: 9.4
+  jumpStrength: 650
   dashSpeed: 55
   dashDuration: 0.15
   turnSpeed: 30
-  extraGravity: 10
+  extraGravity: 12.5
   tiltAngle: 55
   tiltSmooth: 2.4
   wallrunForce: 20
   wallHopForce: 900
   speedMultiplier: 1.35
   AIR_DRAG: 10
-  COUNTER_DRAG: 34
+  COUNTER_DRAG: 32
   SLIDING_DRAG: 3.5
   groundCheck: {fileID: 1054435797220177402}
   checkRadius: 0.25
@@ -190,22 +207,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
---- !u!54 &1054435796064714313
-Rigidbody:
+--- !u!114 &4133805917556501506
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054435796064714319}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.5
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f991a7e9582eef94f980b0a43d985ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1054435796927336974}
+  volume: {fileID: 0}
+  dashSmooth: 11
+  disortValue: -35
+  chromaValue: 2.5
+  valueFOV: 88
 --- !u!136 &1054435796064714318
 CapsuleCollider:
   m_ObjectHideFlags: 0

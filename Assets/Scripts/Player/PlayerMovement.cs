@@ -37,14 +37,16 @@ public class PlayerMovement : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGround;
     public bool grounded;
-
+    
     [Header("E.t.c.")]
     public ParticleSystem dashParticles;
     public Animator anim;
     public GameObject cam;
+    
     //script references
     private SlideMovement slideScript;
     private bool isSliding;
+    private VisualEffects visualFX;
 
     //global velocity vars
     private Vector2 vel;
@@ -52,12 +54,14 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector]
     public bool walking;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         slideScript = GetComponent<SlideMovement>();
+        visualFX = GetComponent<VisualEffects>();
 
         initialRotation = cam.transform.localRotation;
     }
@@ -94,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
     
     void FixedUpdate() {
         //extra downward force
-        rb.AddForce(Vector3.down * extraGravity);
+        rb.AddForce(Vector3.down * extraGravity, ForceMode.Acceleration); ///dis correct
 
         CheckForWall();
         if (!grounded && touchingWall && !isWallRunning)
@@ -148,10 +152,14 @@ public class PlayerMovement : MonoBehaviour
         ///wallrunning jumps
         if (isWallRunning) {
             //wall hop
-            if (isWallRight && Input.GetKey(KeyCode.A)) rb.AddForce(-transform.right * wallHopForce);
-            if (isWallLeft && Input.GetKey(KeyCode.D)) rb.AddForce(transform.right * wallHopForce);
-            if (isWallFront && Input.GetKey(KeyCode.S)) rb.AddForce(-transform.forward * wallHopForce * 1.13f);
-            if (isWallBack && Input.GetKey(KeyCode.W)) rb.AddForce(transform.forward * wallHopForce * 1.13f);
+            // if (isWallRight && Input.GetKey(KeyCode.A)) rb.AddForce(-transform.right * wallHopForce);
+            // if (isWallLeft && Input.GetKey(KeyCode.D)) rb.AddForce(transform.right * wallHopForce);
+            // if (isWallFront && Input.GetKey(KeyCode.S)) rb.AddForce(-transform.forward * wallHopForce * 1.13f);
+            // if (isWallBack && Input.GetKey(KeyCode.W)) rb.AddForce(transform.forward * wallHopForce * 1.13f);
+            if (isWallRight) rb.AddForce(-transform.right * wallHopForce);
+            if (isWallLeft) rb.AddForce(transform.right * wallHopForce);
+            if (isWallFront) rb.AddForce(-transform.forward * wallHopForce * 1.13f);
+            if (isWallBack) rb.AddForce(transform.forward * wallHopForce * 1.13f);
 
             //little bit of forward force
             // rb.AddForce(transform.forward * jumpStrength / 2);
@@ -215,8 +223,6 @@ public class PlayerMovement : MonoBehaviour
         float xVel = vel.x;
         float zVel = vel.y;
 
-        dashParticles.Play();
-
         //default dash forward if no inputs
         if (x == 0 & z == 0) rb.velocity = transform.forward * dashSpeed;
             
@@ -232,6 +238,8 @@ public class PlayerMovement : MonoBehaviour
         else if (x < 0) rb.velocity = -transform.right * dashSpeed;
 
         rb.useGravity = false;
+        dashParticles.Play();
+        visualFX.dashFX(dashDuration);
 
         yield return new WaitForSeconds(dashDuration); //dash duration
 
@@ -265,8 +273,11 @@ public class PlayerMovement : MonoBehaviour
 
     void StartWallRun() {
         //small vertical boost at start of wall run
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        rb.AddForce(transform.up * 375f);
+        if (rb.velocity.y < 2f) {
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            rb.AddForce(transform.up * 300f);
+        }
+        
     
         rb.useGravity = false;
         isWallRunning = true;
