@@ -157,9 +157,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa7173fb83977b44f9dc38363ea00739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 0.13
+  amount: 0.15
   smoothAmount: 8
-  maxSwayAmount: 0.2
+  maxSwayAmount: 0.23
   bobAmount: 0.17
   bobSpeed: 3.1
 --- !u!1 &2327634810266826797

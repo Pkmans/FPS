@@ -9,6 +9,7 @@ public class PickUp : MonoBehaviour
     public Transform equipPos;
 
     private GameObject currentWeapon;
+    private GameObject weaponInSight;
     private bool canGrab;
     private bool pickingUp;
 
@@ -25,8 +26,11 @@ public class PickUp : MonoBehaviour
     {
         CheckGrab();
 
-        if (Input.GetKeyDown(KeyCode.E) && canGrab) 
+        if (Input.GetKeyDown(KeyCode.E) && canGrab && !currentWeapon) {
             pickingUp = true;
+            currentWeapon = weaponInSight;
+        }
+            
         
         if (pickingUp)
             PickUpWeapon();
@@ -36,17 +40,21 @@ public class PickUp : MonoBehaviour
     }
 
     void CheckGrab() {
-        if (currentWeapon) return;
-
         RaycastHit hit;
+
+        Debug.DrawRay(cam.position, cam.forward*distance, Color.red);
 
         if (Physics.Raycast(cam.position, cam.forward, out hit, distance)) {
             if (hit.transform.gameObject.tag == "canGrab") {
-                currentWeapon = hit.transform.gameObject;
+                weaponInSight = hit.transform.gameObject;
                 canGrab = true;
-            }    
-        } else 
+            }
+            else {
+            weaponInSight = null;
             canGrab = false;
+            }
+        } 
+            
     }
 
     void PickUpWeapon() {

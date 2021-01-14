@@ -44,5 +44,13 @@ public class Spawner : MonoBehaviour
         canSpawn = true;
     }
 
+    public void removeAllEnemies() {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("ragdollEnemy");
+        enemyCount = 0;
+        foreach (GameObject e in enemies) {
+            Destroy(e);
+        }
+    }
+
 
 }

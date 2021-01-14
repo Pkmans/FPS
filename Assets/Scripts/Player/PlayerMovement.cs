@@ -147,7 +147,8 @@ public class PlayerMovement : MonoBehaviour
         if (numOfJumps == 0) return;
 
         anim.enabled = true;
-        anim.SetTrigger("jump");
+        if(!anim.GetBool("reloading"))
+            anim.SetTrigger("jump");
 
         ///wallrunning jumps
         if (isWallRunning) {

@@ -71,6 +71,9 @@ public class Gun : MonoBehaviour
             Fire();
             recoilTime = 0.1f;
         }
+
+        if (Input.GetKeyDown(KeyCode.R)) StartCoroutine(Reload());
+
       
         Recoiling();
     }
@@ -97,10 +100,9 @@ public class Gun : MonoBehaviour
         muzzleFlash.Play();
         currentAmmo--;
         AudioManager.instance.Play("pistolShot");
+        if (currentAmmo <= 0) StartCoroutine(Reload());
 
         player.KnockBack((player.transform.position - targetPoint).normalized * playerKnockBack);
-
-        if (currentAmmo <= 0) StartCoroutine(Reload());
 
     }
 
