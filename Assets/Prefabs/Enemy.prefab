@@ -1293,7 +1293,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   player: {fileID: 0}
-  sightRange: 20
+  sightRange: 35
   attackRange: 8
   playerInSightRange: 0
   playerInAttackRange: 0

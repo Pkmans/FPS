@@ -42,8 +42,6 @@ public class PickUp : MonoBehaviour
     void CheckGrab() {
         RaycastHit hit;
 
-        Debug.DrawRay(cam.position, cam.forward*distance, Color.red);
-
         if (Physics.Raycast(cam.position, cam.forward, out hit, distance)) {
             if (hit.transform.gameObject.tag == "canGrab") {
                 weaponInSight = hit.transform.gameObject;

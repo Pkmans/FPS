@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77be5d7c287398d4c888eb5ee763c604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 30
+  moveSpeed: 34
   maxSpeed: 9.4
   jumpStrength: 650
   dashSpeed: 55
@@ -5194,7 +5194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d611e349a666e5445992ec7c60a08e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 250
+  sensitivity: 100
   playerBody: {fileID: 1054435796064714315}
 --- !u!114 &1054435796927336971
 MonoBehaviour:

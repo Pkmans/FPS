@@ -55,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public bool walking;
     
-
     // Start is called before the first frame update
     void Start()
     {
@@ -117,18 +116,27 @@ public class PlayerMovement : MonoBehaviour
         float xVel = vel.x;
         float zVel = vel.y;
 
+        ///TODO
         //no input if exceeding max speed
         if (x > 0 && xVel > maxSpeed) x = 0;
         if (x < 0 && xVel < -maxSpeed) x = 0;
         if (z > 0 && zVel > maxSpeed) z = 0;
         if (z < 0 && zVel < -maxSpeed) z = 0;
 
-        //normalize diagonal speed and remove input if sliding
+        // normalize diagonal speed and remove input if sliding
         Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
         if (Mathf.Abs(flatVel.magnitude) > maxSpeed || isSliding) {
             x = 0;
             z = 0;
         }
+
+
+        ///TODO
+        // Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
+        // if (isSliding) {
+        //     x = 0;
+        //     z = 0;
+        // }
 
         CounterMovement(x, z);
 
@@ -136,11 +144,42 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(transform.forward * z * moveSpeed);
         rb.AddForce(transform.right * x * moveSpeed);
 
+        ///TODO
+        //clamp speed
+        // if (x!=0 & z!=0) {
+        //     flatVel = Vector3.ClampMagnitude(flatVel, maxSpeed);
+        //     rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.y);
+        // }
+
+        // print (flatVel.magnitude);
+
         //change direction of player faster
         if (zVel > 0.2f && z < 0) rb.AddForce(-transform.forward * turnSpeed);   
         if (zVel < -0.2f && z > 0) rb.AddForce(transform.forward * turnSpeed);  
         if (xVel > 0.2f && x < 0) rb.AddForce(-transform.right * turnSpeed);   
-        if (xVel < -0.2f && x > 0) rb.AddForce(transform.right * turnSpeed);  
+        if (xVel < -0.2f && x > 0) rb.AddForce(transform.right * turnSpeed);
+
+        ///TODO
+        // //max speed check
+        // Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
+        // if (flatVel.magnitude > maxSpeed) {
+        //     flatVel = flatVel.normalized * maxSpeed;
+        //     rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.y);
+        // }
+
+        print (flatVel.magnitude);
+
+        ///force in opposite direction
+        // if (flatVel.magnitude > maxSpeed) {
+        //     float brakeSpeed = flatVel.magnitude - maxSpeed;
+
+        //     Vector3 normalisedVelocity = flatVel.normalized;
+        //     Vector3 brakeVelocity = normalisedVelocity * brakeSpeed;  // make the brake Vector3 value
+ 
+        //     rb.AddForce(-brakeVelocity);  // apply opposing brake force
+        // }
+
+
     }
     
     void Jump() {

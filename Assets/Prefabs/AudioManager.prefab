@@ -46,13 +46,13 @@ MonoBehaviour:
   sounds:
   - name: BGM
     clip: {fileID: 8300000, guid: 307d1c3c7a8274e408e6586226a7219b, type: 3}
-    volume: 0.14
+    volume: 0.09
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: sliding
     clip: {fileID: 8300000, guid: 69c7b57152b52ed47a5a2171775bcc68, type: 3}
-    volume: 0.1
+    volume: 0.09
     pitch: 0.9
     loop: 0
     source: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: pistolShot
     clip: {fileID: 8300000, guid: ed3abcf76f3db4c4b82de27d1e657763, type: 3}
-    volume: 0.3
+    volume: 0.25
     pitch: 1
     loop: 0
     source: {fileID: 0}
