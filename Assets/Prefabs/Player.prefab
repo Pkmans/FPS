@@ -145,7 +145,7 @@ MonoBehaviour:
   tiltSmooth: 2.4
   wallrunForce: 20
   wallHopForce: 900
-  speedMultiplier: 1.35
+  increaseMaxSpeed: 2.75
   AIR_DRAG: 10
   COUNTER_DRAG: 32
   SLIDING_DRAG: 3.5
@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchSpeed: 100
+  angleDivisor: 5
   tiltAngle: 6.5
   tiltSmooth: 9
   crouchPosition: {fileID: 1054435796214437904}
@@ -5194,7 +5195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d611e349a666e5445992ec7c60a08e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensitivity: 100
+  sensitivity: 200
   playerBody: {fileID: 1054435796064714315}
 --- !u!114 &1054435796927336971
 MonoBehaviour:

@@ -5,9 +5,10 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int health = 1;
-    private Animator anim;
-
     public GameObject blood;
+    public GameObject damageCrosshair, deathCrosshair;
+
+    private Animator anim;
     private Transform bloodSplatterPos;
 
     [HideInInspector]
@@ -26,17 +27,27 @@ public class EnemyHealth : MonoBehaviour
         
     }
 
-    void OnCollisionEnter (Collision col) {
-       
-    }
-
     public void TakeDamage(int damage) {
         health -= damage;
 
-        if (health <= 0) 
+        if (health <= 0) {
             Die();
+        }
+            
 
+        ///crosshair flash
+        damageCrosshair.SetActive(true);
+        Invoke("turnOffDmgCrosshair", 0.15f);
     }
+
+    void turnOffDmgCrosshair() {
+        damageCrosshair.SetActive(false);
+    }
+
+    void turnOffDeathCrosshair() {
+        deathCrosshair.SetActive(false);
+    }
+
 
     void Die() {
         Instantiate(blood, bloodSplatterPos.position, blood.transform.rotation);
@@ -54,6 +65,9 @@ public class EnemyHealth : MonoBehaviour
             GameObject.FindWithTag("Spawner").GetComponent<Spawner>().enemyCount--;
             
         anim.enabled = false;
+
+        deathCrosshair.SetActive(true);
+        Invoke("turnOffDeathCrosshair", 0.15f);
     }
 
 

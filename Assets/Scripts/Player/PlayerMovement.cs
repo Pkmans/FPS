@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     //public variables
     public float moveSpeed = 10f;
     public float maxSpeed;
+    private float maxWalkSpeed;
     public float jumpStrength = 10f;
     private float numOfJumps = 2f;
     public float dashSpeed;
@@ -19,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public float tiltAngle;
     public float tiltSmooth;
     public float wallrunForce, wallHopForce;
-    public float speedMultiplier = 1.3f;
+    public float increaseMaxSpeed;
     private bool isWallRight, isWallLeft, isWallFront, isWallBack;
     private bool isWallRunning;
     private bool touchingWall;
@@ -63,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
         visualFX = GetComponent<VisualEffects>();
 
         initialRotation = cam.transform.localRotation;
+        maxWalkSpeed = maxSpeed;
     }
 
     // Update is called once per frame
@@ -115,28 +117,25 @@ public class PlayerMovement : MonoBehaviour
         //vel relative to look direction
         float xVel = vel.x;
         float zVel = vel.y;
-
-        ///TODO
+        
         //no input if exceeding max speed
-        if (x > 0 && xVel > maxSpeed) x = 0;
-        if (x < 0 && xVel < -maxSpeed) x = 0;
-        if (z > 0 && zVel > maxSpeed) z = 0;
-        if (z < 0 && zVel < -maxSpeed) z = 0;
+        if (isWallRunning) {
+            if (x > 0 && xVel > maxSpeed) x = 0;
+            if (x < 0 && xVel < -maxSpeed) x = 0;
+            if (z > 0 && zVel > maxSpeed) z = 0;
+            if (z < 0 && zVel < -maxSpeed) z = 0;
+        } else {
+            if (x > 0 && xVel > maxWalkSpeed) x = 0;
+            if (x < 0 && xVel < -maxWalkSpeed) x = 0;
+            if (z > 0 && zVel > maxWalkSpeed) z = 0;
+            if (z < 0 && zVel < -maxWalkSpeed) z = 0;
+        }
+        
 
-        // normalize diagonal speed and remove input if sliding
-        Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
-        if (Mathf.Abs(flatVel.magnitude) > maxSpeed || isSliding) {
+        if (isSliding) {
             x = 0;
             z = 0;
         }
-
-
-        ///TODO
-        // Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
-        // if (isSliding) {
-        //     x = 0;
-        //     z = 0;
-        // }
 
         CounterMovement(x, z);
 
@@ -144,41 +143,25 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(transform.forward * z * moveSpeed);
         rb.AddForce(transform.right * x * moveSpeed);
 
-        ///TODO
-        //clamp speed
-        // if (x!=0 & z!=0) {
-        //     flatVel = Vector3.ClampMagnitude(flatVel, maxSpeed);
-        //     rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.y);
-        // }
-
-        // print (flatVel.magnitude);
-
         //change direction of player faster
         if (zVel > 0.2f && z < 0) rb.AddForce(-transform.forward * turnSpeed);   
         if (zVel < -0.2f && z > 0) rb.AddForce(transform.forward * turnSpeed);  
         if (xVel > 0.2f && x < 0) rb.AddForce(-transform.right * turnSpeed);   
         if (xVel < -0.2f && x > 0) rb.AddForce(transform.right * turnSpeed);
 
-        ///TODO
-        // //max speed check
-        // Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
-        // if (flatVel.magnitude > maxSpeed) {
-        //     flatVel = flatVel.normalized * maxSpeed;
-        //     rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.y);
-        // }
 
-        print (flatVel.magnitude);
+        //limit velocity to max Speed
+        Vector2 flatVel = new Vector2(rb.velocity.x, rb.velocity.z);
+        if (Mathf.Abs(flatVel.magnitude) > maxSpeed) {
+            flatVel = Vector3.ClampMagnitude(flatVel, maxSpeed);
+            rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.y);
+        }
 
-        ///force in opposite direction
-        // if (flatVel.magnitude > maxSpeed) {
-        //     float brakeSpeed = flatVel.magnitude - maxSpeed;
+        ///if vel > maxWalkSpeed, zero out inputs
+        ///if vel > maxSpeed, set vel back to maxSpeed
+        ///on dash events or explosion events, maxSpeed is increased for a duration
 
-        //     Vector3 normalisedVelocity = flatVel.normalized;
-        //     Vector3 brakeVelocity = normalisedVelocity * brakeSpeed;  // make the brake Vector3 value
- 
-        //     rb.AddForce(-brakeVelocity);  // apply opposing brake force
-        // }
-
+        // print(new Vector2(rb.velocity.x, rb.velocity.z).magnitude);
 
     }
     
@@ -192,10 +175,6 @@ public class PlayerMovement : MonoBehaviour
         ///wallrunning jumps
         if (isWallRunning) {
             //wall hop
-            // if (isWallRight && Input.GetKey(KeyCode.A)) rb.AddForce(-transform.right * wallHopForce);
-            // if (isWallLeft && Input.GetKey(KeyCode.D)) rb.AddForce(transform.right * wallHopForce);
-            // if (isWallFront && Input.GetKey(KeyCode.S)) rb.AddForce(-transform.forward * wallHopForce * 1.13f);
-            // if (isWallBack && Input.GetKey(KeyCode.W)) rb.AddForce(transform.forward * wallHopForce * 1.13f);
             if (isWallRight) rb.AddForce(-transform.right * wallHopForce);
             if (isWallLeft) rb.AddForce(transform.right * wallHopForce);
             if (isWallFront) rb.AddForce(-transform.forward * wallHopForce * 1.13f);
@@ -263,6 +242,8 @@ public class PlayerMovement : MonoBehaviour
         float xVel = vel.x;
         float zVel = vel.y;
 
+        maxSpeed += dashSpeed;
+
         //default dash forward if no inputs
         if (x == 0 & z == 0) rb.velocity = transform.forward * dashSpeed;
             
@@ -296,6 +277,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 clampedVector = Vector3.ClampMagnitude(diagonalVector, reducedSpeed);
 
         rb.velocity = clampedVector + new Vector3(0, rb.velocity.y, 0);
+
+        maxSpeed -= dashSpeed;
     }
 
     public void KnockBack(Vector3 knockDirection) {
@@ -306,6 +289,7 @@ public class PlayerMovement : MonoBehaviour
     ///
     ///WALLRUNNING SCRIPT
     ///
+
     void OnCollisionEnter(Collision col) {
         if (Mathf.Abs(Vector3.Dot(col.contacts[0].normal, Vector3.up)) < 0.1f)
             touchingWall = true;
@@ -318,10 +302,9 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(transform.up * 300f);
         }
         
-    
         rb.useGravity = false;
         isWallRunning = true;
-        maxSpeed *= speedMultiplier;
+        maxSpeed += increaseMaxSpeed;
 
         if (numOfJumps <= 0) 
             numOfJumps = 1;
@@ -342,7 +325,12 @@ public class PlayerMovement : MonoBehaviour
 
         rb.useGravity = true;
         isWallRunning = false;
-        maxSpeed /= speedMultiplier;
+        // maxSpeed -= increaseMaxSpeed;
+        Invoke("removeWallRunSpeed", 1f);
+    }
+
+    void removeWallRunSpeed() {
+        maxSpeed -= increaseMaxSpeed;
     }
 
     private void CheckForWall() {

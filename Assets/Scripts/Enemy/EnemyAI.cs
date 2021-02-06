@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
 
     //navmesh stuff
     // public Vector3 walkPoint;
-    public Transform player;
+    private Transform player;
 
     //states
     public float sightRange, attackRange;
@@ -35,7 +35,6 @@ public class EnemyAI : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
 
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
@@ -50,7 +49,8 @@ public class EnemyAI : MonoBehaviour
         Vector3 playerPos = new Vector3(player.position.x, transform.position.y, player.position.z);
         transform.LookAt(playerPos);
 
-        anim.SetTrigger("run");
+        if (anim)
+            anim.SetTrigger("run");
         
     }
 
@@ -58,6 +58,7 @@ public class EnemyAI : MonoBehaviour
         
         //stop moving and play animation
         agent.SetDestination(transform.position);
+        if (anim)
         anim.SetTrigger("attack");
 
         //look at player

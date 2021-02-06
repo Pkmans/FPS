@@ -6,6 +6,7 @@ public class SlideMovement : MonoBehaviour
 {
     //public variables
     public float launchSpeed;
+    public float angleDivisor;
     public float tiltAngle;
     public float tiltSmooth;
 
@@ -41,6 +42,7 @@ public class SlideMovement : MonoBehaviour
 
         if (isSliding) Tilt();
         else ResetTilt();
+
     }
 
     void Slide() {
@@ -55,6 +57,7 @@ public class SlideMovement : MonoBehaviour
 
     void StartSlide() {
         if (isSliding) return;
+        movementScript.maxSpeed += 9f;
 
         slideDir = transform.forward;
 
@@ -83,7 +86,7 @@ public class SlideMovement : MonoBehaviour
         float groundAngle = Vector3.Angle(Vector3.up, slopeDirection);
 
         //steeper slope, faster speed
-        rb.AddForce(slideDir * groundAngle / 5);
+        rb.AddForce(slideDir * groundAngle / angleDivisor);
         rb.AddForce(Vector3.down * 10f);
     }
 
@@ -97,6 +100,8 @@ public class SlideMovement : MonoBehaviour
         slideDir = Vector3.zero;
 
         AudioManager.instance.Stop("sliding");
+
+        movementScript.maxSpeed -= 9f;
     }
 
     void changeHeight(float newHeight) {

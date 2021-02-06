@@ -9,6 +9,7 @@ TagManager:
   - PlayerProjectile
   - EnemyProjectile
   - Spawner
+  - enemyHead
   layers:
   - Default
   - TransparentFX

@@ -60,14 +60,16 @@ public class PickUp : MonoBehaviour
         currentWeapon.transform.parent = equipPos;
         currentWeapon.transform.position = Vector3.Lerp(currentWeapon.transform.position, equipPos.position, Time.deltaTime * 9);
         currentWeapon.transform.rotation = Quaternion.Slerp(currentWeapon.transform.rotation, equipPos.rotation, Time.deltaTime * 9);
+        
+        //kinematic and remove outline
         currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-
+        // currentWeapon.GetComponent<Outline>().enabled = false;
        
-        currentWeapon.layer = 14;   //set layer to 'localGun' as well as its children objects
+        //set layer to 'localGun' as well as its children objects
+        currentWeapon.layer = 14;
         foreach (Transform t in currentWeapon.transform) {
             t.gameObject.layer = 14;
         }
-
 
         if (Vector3.Distance(currentWeapon.transform.position, equipPos.position) <= 0.1f) {
             pickingUp = false;

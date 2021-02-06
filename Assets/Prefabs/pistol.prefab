@@ -131,6 +131,7 @@ MonoBehaviour:
   bulletSpeed: 95
   fireRate: 0.25
   damage: 1
+  headShotDamage: 3
   numBullets: 1
   spreadFactor: 0.1
   playerKnockBack: 0
@@ -152,7 +153,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295230223580915753}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa7173fb83977b44f9dc38363ea00739, type: 3}
   m_Name: 

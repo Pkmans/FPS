@@ -133,6 +133,7 @@ MonoBehaviour:
   bulletSpeed: 95
   fireRate: 0.12
   damage: 1
+  headShotDamage: 3
   numBullets: 1
   spreadFactor: 0.1
   playerKnockBack: 0
