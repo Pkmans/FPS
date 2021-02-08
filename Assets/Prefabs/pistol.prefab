@@ -131,7 +131,6 @@ MonoBehaviour:
   bulletSpeed: 95
   fireRate: 0.25
   damage: 1
-  headShotDamage: 3
   numBullets: 1
   spreadFactor: 0.1
   playerKnockBack: 0
@@ -142,7 +141,7 @@ MonoBehaviour:
   maxAmmo: 10
   reloadTime: 0.75
   ammo: {fileID: 0}
-  bullet: {fileID: 5498626081228398627, guid: 5837718e9e5cd514ca0f76b73e7b5519, type: 3}
+  bullet: {fileID: 2272096154820957347, guid: c4d1a8b706fbc994083f540adf600046, type: 3}
   firePoint: {fileID: 7122574822981789220}
   muzzleFlash: {fileID: 4018944416555099413}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}

@@ -38,12 +38,15 @@ public class LegStepper : MonoBehaviour
         Vector3 towardHome = (homeTransform.position - transform.position);
 
         float overShootDistance = wantStepAtDistance * stepOvershootFraction;
-        Vector3 overShootVector = towardHome * overShootDistance;
+        Vector3 overShootVector = towardHome.normalized * overShootDistance;
 
         //restrict overshootvector to be level with ground
         overShootVector = Vector3.ProjectOnPlane(overShootVector, Vector3.up);
 
+        // Vector3 endPos = homeTransform.position + overShootVector; 
+        ///change
         Vector3 endPos = homeTransform.position + overShootVector;
+
 
         //leg moves up, passing center point
         Vector3 centerPoint = (startPos + endPos)/2;
@@ -69,9 +72,7 @@ public class LegStepper : MonoBehaviour
 
             //wait for one frame 
             yield return null;
-        }
-
-        while (timeElapsed < moveDuration);
+        } while (timeElapsed < moveDuration);
 
         //done moving
         moving = false;

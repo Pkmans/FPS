@@ -1278,12 +1278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2beca20f81bc9de499fb54fea4b184c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyHitBox: {fileID: 0}
-  headHitBox: {fileID: 0}
-  armature: {fileID: 5236496651844763103}
-  MainColliders:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &4197816358233402192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1300,7 +1294,6 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 1024
-  player: {fileID: 0}
   sightRange: 35
   attackRange: 8
   playerInSightRange: 0

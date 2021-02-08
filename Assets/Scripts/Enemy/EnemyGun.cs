@@ -13,6 +13,7 @@ public class EnemyGun : MonoBehaviour
     public Transform firePoint;
 
     private Transform cam;
+    private Transform player;
 
     public bool inAttackState;
     private bool canAttack = true;
@@ -21,6 +22,7 @@ public class EnemyGun : MonoBehaviour
     void Start()
     {
         cam = GameObject.Find("playerCamera").transform;
+        player = GameObject.FindWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -32,10 +34,10 @@ public class EnemyGun : MonoBehaviour
 
     void Fire() {
 
-        GameObject newBullet = Instantiate(bullet, firePoint.position, Quaternion.identity);
+        GameObject newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation);
 
         //set bullet velocity and direction
-        Vector3 bulletDir = (cam.position - transform.position).normalized;
+        Vector3 bulletDir = (player.position - transform.position).normalized;
         newBullet.GetComponent<Rigidbody>().velocity = bulletDir * bulletSpeed;
         newBullet.GetComponent<Bullet>().damage = damage;
 

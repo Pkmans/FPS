@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ghastController : MonoBehaviour
 {
-    public LegStepper leftLegStepper, rightLegStepper;
+    public LegStepper frontLeftLegStepper, frontRightLegStepper;
+    public LegStepper backLeftLegStepper, backRightLegStepper;
 
     // How fast we can turn and move full throttle
     public float turnSpeed;
@@ -81,22 +82,20 @@ public class ghastController : MonoBehaviour
         {
             do 
             {
-                leftLegStepper.TryMove();
+                frontLeftLegStepper.TryMove();
+                backRightLegStepper.TryMove();
                 yield return null;
 
                 //stay in this loop while leg is moving
                 //move other leg if this leg is done moving
-            } 
-            
-            while (leftLegStepper.moving);
+            } while (frontLeftLegStepper.moving || backRightLegStepper.moving);
 
             do 
             {
-                rightLegStepper.TryMove();
+                frontRightLegStepper.TryMove();
+                backLeftLegStepper.TryMove();
                 yield return null;
-            } 
-            
-            while (rightLegStepper.moving);
+            } while (frontRightLegStepper.moving || backLeftLegStepper.moving);
         }
     }
 
