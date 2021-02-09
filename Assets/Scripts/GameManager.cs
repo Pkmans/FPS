@@ -6,8 +6,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
    
+    //menu UI
     public GameObject deathMenuUI;
     private bool GameOver = false;
+
+    //UI damage feedback
+    public GameObject dmgCrosshair, dethCrosshair;
 
     //settings carried over from main menu
     public float sensitivity;
@@ -23,16 +27,18 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
+    public IEnumerator damageCrosshair() {
+        print("func called");
+        dmgCrosshair.SetActive(true);
+        print("crosshair active is : " + dmgCrosshair.activeSelf);
+        yield return new WaitForSeconds(0.2f);
+        dmgCrosshair.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
- 
+    public IEnumerator deathCrosshair() {
+        dethCrosshair.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        dethCrosshair.SetActive(false);
     }
 
     public void PlayerDeath() {

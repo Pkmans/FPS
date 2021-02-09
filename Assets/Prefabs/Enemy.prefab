@@ -1194,6 +1194,7 @@ GameObject:
   - component: {fileID: 4197816358233402192}
   - component: {fileID: 4197816358233402193}
   - component: {fileID: 4197816358233402195}
+  - component: {fileID: 176981452328636661}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: ragdollEnemy
@@ -1339,6 +1340,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &176981452328636661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4197816358233402186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70158779ff0d4174bbb6d570d055e92e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
+  deathParticle: {fileID: 6799708177754836193, guid: e8689de781a787449ab831f33150e94b,
+    type: 3}
+  deathParticlePos: {fileID: 5287312457645388124}
 --- !u!1 &4510620013259093892
 GameObject:
   m_ObjectHideFlags: 0

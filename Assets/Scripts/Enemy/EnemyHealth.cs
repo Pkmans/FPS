@@ -34,18 +34,7 @@ public class EnemyHealth : MonoBehaviour
             Die();
         }
             
-
-        ///crosshair flash
-        damageCrosshair.SetActive(true);
-        Invoke("turnOffDmgCrosshair", 0.15f);
-    }
-
-    void turnOffDmgCrosshair() {
-        damageCrosshair.SetActive(false);
-    }
-
-    void turnOffDeathCrosshair() {
-        deathCrosshair.SetActive(false);
+        GameManager.instance.StartCoroutine("damageCrosshair");
     }
 
 
@@ -66,8 +55,7 @@ public class EnemyHealth : MonoBehaviour
             
         anim.enabled = false;
 
-        deathCrosshair.SetActive(true);
-        Invoke("turnOffDeathCrosshair", 0.15f);
+        GameManager.instance.StartCoroutine("deathCrosshair");
     }
 
 

@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathMenuUI: {fileID: 0}
+  dmgCrosshair: {fileID: 0}
+  killedCrosshair: {fileID: 0}
   sensitivity: 200

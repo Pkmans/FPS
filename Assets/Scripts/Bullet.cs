@@ -32,11 +32,12 @@ public class Bullet : MonoBehaviour
 
         if (col.gameObject.layer == 11)  ///enemy layer
         {  
-            EnemyHealth enemyHp = col.gameObject.GetComponent<EnemyHealth>();
-            if (enemyHp) enemyHp.TakeDamage(damage);
+            Enemy enemy = col.gameObject.GetComponent<Enemy>();
+            if (enemy) enemy.TakeDamage(damage);
+
             ///NEED TO ABSTRACT ENEMY HEALTH SCRIPTS
-            EnemyHP enemyHP = col.gameObject.GetComponent<EnemyHP>();        
-            if (enemyHP) enemyHP.TakeDamage(damage);
+            // EnemyHP enemyHP = col.gameObject.GetComponent<EnemyHP>();        
+            // if (enemyHP) enemyHP.TakeDamage(damage);
         } 
         
         if (col.gameObject.name == "Player") {

@@ -1331,7 +1331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &388720777
 Transform:
   m_ObjectHideFlags: 0
@@ -1349,7 +1349,7 @@ Transform:
   - {fileID: 1406046558}
   - {fileID: 847531812}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &413234771
 GameObject:
@@ -1705,8 +1705,7 @@ MonoBehaviour:
   health: 3
   deathParticle: {fileID: 6799708177754836193, guid: e8689de781a787449ab831f33150e94b,
     type: 3}
-  damageCrosshair: {fileID: 1784536060}
-  deathCrosshair: {fileID: 434650141}
+  deathParticlePos: {fileID: 0}
   legs:
   - {fileID: 425479704}
   - {fileID: 1924683658}
@@ -2932,17 +2931,32 @@ PrefabInstance:
     - target: {fileID: 224795161209764702, guid: e79c6b4804dec6f4eb0125d2081d435f,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 224795161209764702, guid: e79c6b4804dec6f4eb0125d2081d435f,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 224795161209764702, guid: e79c6b4804dec6f4eb0125d2081d435f,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.4
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 559069031513024757, guid: e79c6b4804dec6f4eb0125d2081d435f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 559069031513024757, guid: e79c6b4804dec6f4eb0125d2081d435f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 559069031513024757, guid: e79c6b4804dec6f4eb0125d2081d435f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 3376252517634738216, guid: e79c6b4804dec6f4eb0125d2081d435f,
         type: 3}
@@ -2958,6 +2972,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0.10849059
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892867289226895867, guid: e79c6b4804dec6f4eb0125d2081d435f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e79c6b4804dec6f4eb0125d2081d435f, type: 3}
@@ -4122,8 +4141,7 @@ MonoBehaviour:
   health: 3
   deathParticle: {fileID: 7562740448595928690, guid: 0d78d934fd666d34ba5b7ad3bacc16e8,
     type: 3}
-  damageCrosshair: {fileID: 1784536060}
-  deathCrosshair: {fileID: 434650141}
+  deathParticlePos: {fileID: 0}
   legs:
   - {fileID: 3755715442396659086}
   - {fileID: 582845348}
@@ -4547,6 +4565,12 @@ Transform:
   m_Father: {fileID: 1186462375}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -116.274, y: -91.031006, z: 0}
+--- !u!4 &1371128011 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3476425681776341811, guid: a329fe15e83bfc541b1795728024399b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3654914199584023623}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1379457977
 GameObject:
   m_ObjectHideFlags: 0
@@ -4951,12 +4975,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414063056}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.85, y: 4.47, z: 1.0588491}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.3423993, y: -0.60586554, z: -0.6186783, w: 0.36459136}
+  m_LocalPosition: {x: -0.018533563, y: 1.7910575, z: 0.3223836}
+  m_LocalScale: {x: 0.10000002, y: 0.1, z: 0.1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_Father: {fileID: 1371128011}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1425815478
 GameObject:
@@ -8087,6 +8111,11 @@ PrefabInstance:
       propertyPath: deathMenu
       value: 
       objectReference: {fileID: 1379457977}
+    - target: {fileID: 1054435796064714308, guid: 414e181620401f640b07606de6bb3c0c,
+        type: 3}
+      propertyPath: health
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 1054435796064714312, guid: 414e181620401f640b07606de6bb3c0c,
         type: 3}
       propertyPath: turnSpeed
@@ -8394,6 +8423,21 @@ PrefabInstance:
       propertyPath: deathMenuUI
       value: 
       objectReference: {fileID: 1379457977}
+    - target: {fileID: 4086577255292378362, guid: b55e30dded64e8a4aa6ef3dd82ed0a64,
+        type: 3}
+      propertyPath: dmgCrosshair
+      value: 
+      objectReference: {fileID: 1784536060}
+    - target: {fileID: 4086577255292378362, guid: b55e30dded64e8a4aa6ef3dd82ed0a64,
+        type: 3}
+      propertyPath: killedCrosshair
+      value: 
+      objectReference: {fileID: 434650141}
+    - target: {fileID: 4086577255292378362, guid: b55e30dded64e8a4aa6ef3dd82ed0a64,
+        type: 3}
+      propertyPath: dethCrosshair
+      value: 
+      objectReference: {fileID: 434650141}
     - target: {fileID: 4086577255292378363, guid: b55e30dded64e8a4aa6ef3dd82ed0a64,
         type: 3}
       propertyPath: m_Name
@@ -8545,6 +8589,11 @@ PrefabInstance:
       propertyPath: deathCrosshair
       value: 
       objectReference: {fileID: 434650141}
+    - target: {fileID: 4197816358233402188, guid: 27799afa2efbdf041afc772d2279567e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4197816358233402191, guid: 27799afa2efbdf041afc772d2279567e,
         type: 3}
       propertyPath: m_Enabled
@@ -8564,6 +8613,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WalkableMask
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5287312457645388125, guid: 27799afa2efbdf041afc772d2279567e,
+        type: 3}
+      propertyPath: m_Name
+      value: deathParticlePos
       objectReference: {fileID: 0}
     - target: {fileID: 5287312458043285533, guid: 27799afa2efbdf041afc772d2279567e,
         type: 3}

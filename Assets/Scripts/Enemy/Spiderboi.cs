@@ -4,22 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-public class EnemyHP : MonoBehaviour
+public class Spiderboi : Enemy
 {
-    public int health = 1;
-    public GameObject deathParticle;
-    public GameObject damageCrosshair, deathCrosshair;
-
-    public GameObject[] legs;
-
-    public GameObject[] targets;
-
-    private bool died;
+    // public GameObject[] legs;
+    // public GameObject[] targets;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        base.Start();
     }
 
     // Update is called once per frame
@@ -29,19 +22,7 @@ public class EnemyHP : MonoBehaviour
     }
 
     
-    public void TakeDamage(int damage) {
-        health -= damage;
-
-        if (health <= 0) {
-            Die();
-        }
-
-        ///crosshair flash
-        damageCrosshair.SetActive(true);
-        Invoke("turnOffDmgCrosshair", 0.15f);
-    }
-    
-    void Die() {
+    public override void Die() {
         if (died) return;
         died = true;
         Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
@@ -64,19 +45,10 @@ public class EnemyHP : MonoBehaviour
         // GetComponent<EnemyAI>().enabled = false;
         // GetComponent<EnemyGun>().enabled = false;
 
-        deathCrosshair.SetActive(true);
-        Invoke("turnOffDeathCrosshair", 0.15f);
-
+        GameManager.instance.StartCoroutine("deathCrosshair");
         Destroy(gameObject, 0.17f);
     }
 
-    void turnOffDmgCrosshair() {
-        damageCrosshair.SetActive(false);
-    }
-
-    void turnOffDeathCrosshair() {
-        deathCrosshair.SetActive(false);
-    }
 
     
 
