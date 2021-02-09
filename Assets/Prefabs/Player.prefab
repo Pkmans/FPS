@@ -208,6 +208,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
+  innerCol: {fileID: 1054435796064714318}
+  outerCol: {fileID: 1054435796064714311}
+  deathMenu: {fileID: 0}
 --- !u!114 &4133805917556501506
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,7 +13,10 @@ public class FPS_Camera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        
+        sensitivity = GameManager.instance.sensitivity;
     }
 
     // Update is called once per frame

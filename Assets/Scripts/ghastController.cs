@@ -25,6 +25,10 @@ public class ghastController : MonoBehaviour
     // We are only doing a rotation around the up axis, so we only use a float here
     float currentAngularVelocity;
 
+    ///update body position
+    public Transform[] feet;
+    public float offSet;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -36,7 +40,29 @@ public class ghastController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        RootMotionUpdate();
+        // RootMotionUpdate();
+        BodyPositionUpdate();
+    }
+
+    void BodyPositionUpdate() {
+        //averagePos = avg of x, avg y, avg z
+        float averageX = 0, averageY = 0, averageZ = 0;
+
+        float divisor = 0;
+        foreach (Transform f in feet) {
+            averageX += f.position.x;
+            averageY += f.position.y;
+            averageZ += f.position.z;
+
+            divisor++;
+        }
+
+        averageX /= divisor;
+        averageY /= divisor;
+        averageZ /= divisor;
+        
+        Vector3 averagePos = new Vector3(transform.position.x, averageY + offSet, transform.position.z);
+        // transform.position = averagePos;
     }
 
     void RootMotionUpdate() {

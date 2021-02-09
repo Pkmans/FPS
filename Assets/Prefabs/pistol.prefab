@@ -138,7 +138,8 @@ MonoBehaviour:
   recoilHeight: 0.15
   recoilBack: 0.3
   recoilSpeed: 20
-  maxAmmo: 10
+  maxAmmo: 120
+  clipSize: 10
   reloadTime: 0.75
   ammo: {fileID: 0}
   bullet: {fileID: 2272096154820957347, guid: c4d1a8b706fbc994083f540adf600046, type: 3}

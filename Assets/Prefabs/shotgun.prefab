@@ -400,7 +400,6 @@ MonoBehaviour:
   bulletSpeed: 95
   fireRate: 1
   damage: 1
-  headShotDamage: 3
   numBullets: 6
   spreadFactor: 8
   playerKnockBack: 8
@@ -408,7 +407,8 @@ MonoBehaviour:
   recoilHeight: 0.4
   recoilBack: 1
   recoilSpeed: 32
-  maxAmmo: 8
+  maxAmmo: 64
+  clipSize: 8
   reloadTime: 0.75
   ammo: {fileID: 0}
   bullet: {fileID: 5498626081228398627, guid: 5837718e9e5cd514ca0f76b73e7b5519, type: 3}

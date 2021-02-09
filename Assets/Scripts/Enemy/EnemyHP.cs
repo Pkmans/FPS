@@ -67,7 +67,7 @@ public class EnemyHP : MonoBehaviour
         deathCrosshair.SetActive(true);
         Invoke("turnOffDeathCrosshair", 0.15f);
 
-        Destroy(gameObject, 0.15f);
+        Destroy(gameObject, 0.17f);
     }
 
     void turnOffDmgCrosshair() {

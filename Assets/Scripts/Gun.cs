@@ -25,9 +25,12 @@ public class Gun : MonoBehaviour
     [Header("Ammo")]
     //ammo system
     public int maxAmmo;
-    private int currentAmmo;
+    public int clipSize;
+    private int currentClip;
+    private int remainingAmmo;
     public float reloadTime = 0.75f;
     private bool reloading;
+    private bool ammoEmpty;
     public TextMeshProUGUI ammo;
 
     [Header("E.t.c.")]
@@ -51,38 +54,44 @@ public class Gun : MonoBehaviour
     {
         cam = GameObject.Find("playerCamera").transform;
         camComponent = cam.GetComponent<Camera>();
-
-        currentAmmo = maxAmmo;
         anim = transform.parent.GetComponent<Animator>();
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        
+        
+        currentClip = clipSize;
+        remainingAmmo = maxAmmo;
     }
 
     void OnEnable() {
-        ammo.text = currentAmmo.ToString() + " / " + maxAmmo.ToString();
+        ammo.text = currentClip.ToString() + " / " + remainingAmmo.ToString();
         initialPosition = transform.localPosition;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ammo.text = currentAmmo.ToString() + " / " + maxAmmo.ToString();
+        ammo.text = currentClip.ToString() + " / " + remainingAmmo.ToString();
 
         if (Input.GetMouseButton(0) && canFire && !reloading) {
             Fire();
-            recoilTime = 0.1f;
         }
 
-        if (Input.GetKeyDown(KeyCode.R)) StartCoroutine(Reload());
+        if (Input.GetKeyDown(KeyCode.R) && !ammoEmpty) 
+            StartCoroutine(Reload());
 
-      
         Recoiling();
     }
 
     void Fire() {
         if (reloading) return;
+        if (currentClip == 0 && ammoEmpty) {
+            //play empty clip sound effect
+            return;
+        }
 
         canFire = false;
         Invoke("ReadyFire", fireRate);
+        recoilTime = 0.1f;
 
         Ray ray = camComponent.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
@@ -98,9 +107,9 @@ public class Gun : MonoBehaviour
 
         //particles and effects
         muzzleFlash.Play();
-        currentAmmo--;
+        currentClip--;
         AudioManager.instance.Play("pistolShot");
-        if (currentAmmo <= 0) StartCoroutine(Reload());
+        if (currentClip <= 0 && !ammoEmpty) StartCoroutine(Reload());
 
         player.KnockBack((player.transform.position - targetPoint).normalized * playerKnockBack);
 
@@ -118,7 +127,7 @@ public class Gun : MonoBehaviour
         bulletDir = targetPoint - firePoint.position;
         newBullet.GetComponent<Rigidbody>().velocity = bulletDir.normalized * bulletSpeed;
 
-        ///extra bullets with a spread
+        ///EXTRA BULLETS WITH A SPREAD
         for (int i = 0; i < numBullets - 1; i++) 
         {
             //instantiate bullet
@@ -137,9 +146,8 @@ public class Gun : MonoBehaviour
     } 
 
 
-
     IEnumerator Reload() {
-        //start reload
+        //start reload anim
         reloading = true;
         anim.enabled = true;
         anim.SetBool("reloading", true);
@@ -147,11 +155,21 @@ public class Gun : MonoBehaviour
 
         yield return new WaitForSeconds(reloadTime);
 
-        //end reload
-        currentAmmo = maxAmmo;
+        //end reload anim
         reloading = false;
         anim.enabled = false;
         anim.SetBool("reloading", false);
+
+        //ammo reload
+        int reloadAmount = clipSize - currentClip;
+        
+        if (remainingAmmo < reloadAmount) //if remaining ammo too little,
+            reloadAmount = remainingAmmo; //only reload remaining ammo
+
+        currentClip += reloadAmount;
+        remainingAmmo -= reloadAmount;
+
+        if (remainingAmmo == 0) ammoEmpty = true;
     }
 
     void Recoiling() {

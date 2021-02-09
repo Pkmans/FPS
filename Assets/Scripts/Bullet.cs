@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     [HideInInspector]
     //variables passed in from gun
     public int damage;
+    private bool dmgAlrdyDealt;
 
     private Rigidbody rb;
     // Start is called before the first frame update
@@ -27,6 +28,8 @@ public class Bullet : MonoBehaviour
     }
 
     void OnCollisionEnter (Collision col) {
+        if (dmgAlrdyDealt) return;
+
         if (col.gameObject.layer == 11)  ///enemy layer
         {  
             EnemyHealth enemyHp = col.gameObject.GetComponent<EnemyHealth>();
@@ -41,10 +44,10 @@ public class Bullet : MonoBehaviour
             playerHp.TakeDamage(damage);
         }
         
+        dmgAlrdyDealt = true;
         //faces perpendicular to contact surface
         if (impactEffect)
             Instantiate(impactEffect, transform.position, Quaternion.LookRotation(col.contacts[0].normal, Vector3.up));
-
 
         Destroy(gameObject);
     }
