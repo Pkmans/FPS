@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyGun : MonoBehaviour
 {
-    public float bulletSpeed;
+    public float bulletSpeed = 30f;
     public float fireRate;
     public int damage;
     public int numBullets = 1;
@@ -12,7 +12,6 @@ public class EnemyGun : MonoBehaviour
     public GameObject bullet;
     public Transform firePoint;
 
-    private Transform cam;
     private Transform player;
 
     public bool inAttackState;
@@ -21,7 +20,6 @@ public class EnemyGun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cam = GameObject.Find("playerCamera").transform;
         player = GameObject.FindWithTag("Player").transform;
     }
 
@@ -34,7 +32,7 @@ public class EnemyGun : MonoBehaviour
 
     void Fire() {
 
-        GameObject newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation);
+        GameObject newBullet = Instantiate(bullet, firePoint.position, firePoint.localRotation);
 
         //set bullet velocity and direction
         Vector3 bulletDir = (player.position - transform.position).normalized;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement instance;
+    
     [Header("Properties")]
     //public variables
     public float moveSpeed = 10f;
@@ -56,6 +58,13 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public bool walking;
     
+    void Awake() {
+        if (instance != null)
+            Destroy(instance);
+        else 
+            instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

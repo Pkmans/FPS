@@ -144,7 +144,7 @@ MonoBehaviour:
   clipSize: 25
   reloadTime: 0.75
   ammo: {fileID: 0}
-  bullet: {fileID: 5498626081228398627, guid: 5837718e9e5cd514ca0f76b73e7b5519, type: 3}
+  bullet: {fileID: 2272096154820957347, guid: c4d1a8b706fbc994083f540adf600046, type: 3}
   firePoint: {fileID: 3654914200216654217}
   muzzleFlash: {fileID: 6214523851643603386}
   originalRotation: {x: 0, y: 0, z: 0, w: 0}

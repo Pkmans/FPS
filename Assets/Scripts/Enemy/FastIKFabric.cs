@@ -3,8 +3,6 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-namespace DitzelGames.FastIK
-{
     /// <summary>
     /// Fabrik IK Solver
     /// </summary>
@@ -247,4 +245,3 @@ namespace DitzelGames.FastIK
 #endif
 
     }
-}

@@ -119,7 +119,7 @@ public class Gun : MonoBehaviour
     ///can probably clean up this code
     void SpawnBullet(Vector3 targetPoint) {
         //instantiate bullet
-        GameObject newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation);
+        GameObject newBullet = Instantiate(bullet, firePoint.position, firePoint.localRotation);
         newBullet.GetComponent<Bullet>().damage = damage;
 
         //set bullet velocity
@@ -131,7 +131,7 @@ public class Gun : MonoBehaviour
         for (int i = 0; i < numBullets - 1; i++) 
         {
             //instantiate bullet
-            GameObject newBullet1 = Instantiate(bullet, firePoint.position, firePoint.rotation);
+            GameObject newBullet1 = Instantiate(bullet, firePoint.position, firePoint.localRotation);
             newBullet1.GetComponent<Bullet>().damage = damage;
 
             //set bullet velocity
